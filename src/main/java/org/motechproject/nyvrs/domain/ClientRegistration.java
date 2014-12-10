@@ -11,7 +11,7 @@ import javax.jdo.annotations.Unique;
 public class ClientRegistration extends MdsEntity {
 
     @Unique
-    @Column(length = 20, allowsNull = "false")
+    @Column(length = 20)
     @Field(name = "client_number")
     private String number;
 
@@ -43,7 +43,7 @@ public class ClientRegistration extends MdsEntity {
     @Field(name = "sms_confirm")
     private String smsConfirmation;
 
-    @Column(length = 75)
+    @Column(length = 75, allowsNull = "false")
     @Field(name = "client_region")
     private String region;
 
