@@ -67,7 +67,7 @@ public class ClientRegistration extends MdsEntity {
     public ClientRegistration() {
     }
 
-    public ClientRegistration(String number, String gender, Integer age, EducationLevel educationLevel, String location,
+    public ClientRegistration(String number, String gender, String age, EducationLevel educationLevel, String location,
                               StatusType status, ChannelType channel, String smsConfirmation, String region,
                               String language, String excel, String source, Integer nyWeeks, CampaignType campaignType) {
         this.number = number;
@@ -102,11 +102,11 @@ public class ClientRegistration extends MdsEntity {
         this.gender = gender;
     }
 
-    public Integer getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
