@@ -101,6 +101,11 @@
             <artifactId>org.springframework.aop</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.motechproject</groupId>
+            <artifactId>motech-platform-dataservices</artifactId>
+            <version>${motech.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -135,6 +140,8 @@
                         <Context-File>META-INF/motech/applicationContext.xml</Context-File>
                         <Export-Package>
                             org.motechproject.nyvrs.service;version=${project.version},
+                            org.motechproject.nyvrs.domain;version=${project.version},
+                            org.motechproject.nyvrs.repository;version=${project.version}
                         </Export-Package>
                         <Import-Package>
                             *
