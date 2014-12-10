@@ -21,6 +21,11 @@
             <artifactId>motech-platform-osgi-extender-fragment</artifactId>
             <version>${motech.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.motechproject</groupId>
+            <artifactId>motech-platform-server-config</artifactId>
+            <version>${motech.version}</version>
+        </dependency>
 
         <!-- OSGi IT -->
         <dependency>
@@ -106,6 +111,11 @@
             <artifactId>motech-platform-dataservices</artifactId>
             <version>${motech.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>org.springframework.web.servlet</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -135,13 +145,15 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Blueprint-Enabled>true</Blueprint-Enabled>
                         <Resource-Path>nyvrs/resources</Resource-Path>
                         <Context-File>META-INF/motech/applicationContext.xml</Context-File>
+                        <Context-Path>nyvrs</Context-Path>
+                        <Blueprint-Enabled>true</Blueprint-Enabled>
                         <Export-Package>
                             org.motechproject.nyvrs.service;version=${project.version},
                             org.motechproject.nyvrs.domain;version=${project.version},
-                            org.motechproject.nyvrs.repository;version=${project.version}
+                            org.motechproject.nyvrs.repository;version=${project.version},
+                            org.motechproject.nyvrs.web;version=${project.version}
                         </Export-Package>
                         <Import-Package>
                             *

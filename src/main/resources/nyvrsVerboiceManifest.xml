@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<verboice-service>
+    <name>NYVRS</name>
+    <steps>
+        <step name="isRegistered" display-name="Is registered?" icon="medicalkit" type="callback" callback-url="URL_BASE/isRegistered">
+            <response type="variables">
+                <variable name="isRegistered" display-name="Is user registered" type="string" />
+            </response>
+        </step>
+    </steps>
+    <steps>
+        <step name="register" display-name="Register user" icon="medicalkit" type="callback" callback-url="URL_BASE/register">
+            <settings>
+                <variable name="language" display-name="Language" type="string" />
+                <variable name="age" display-name="Age" type="numeric" />
+                <variable name="gender" display-name="Gender" type="string" />
+                <variable name="educationLevel" display-name="Education level" type="string" />
+                <variable name="channel" display-name="Channel" type="string" />
+            </settings>
+            <response type="variables">
+                <variable name="registrationResult" display-name="Registration result" type="string" />
+            </response>
+        </step>
+    </steps>
+</verboice-service>
