@@ -6,6 +6,12 @@
     <import resource="classpath*:META-INF/motech/*.xml" />
 
     <osgi:service ref="nyvrsService"
-        interface="org.motechproject.nyvrs.service.NyvrsService" />
+                  interface="org.motechproject.nyvrs.service.NyvrsService" />
+
+    <osgi:service ref="clientRegistrationService"
+                  interface="org.motechproject.nyvrs.service.ClientRegistrationService" />
+
+    <osgi:reference id="clientRegistrationDataService"
+                    interface="org.motechproject.nyvrs.repository.ClientRegistrationDataService" />
 
 </beans>
