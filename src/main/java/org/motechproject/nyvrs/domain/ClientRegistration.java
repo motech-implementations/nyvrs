@@ -11,7 +11,7 @@ import javax.jdo.annotations.Unique;
 public class ClientRegistration extends MdsEntity {
 
     @Unique
-    @Column(length = 20, allowsNull = )
+    @Column(length = 20, allowsNull = "false")
     @Field(name = "client_number")
     private String number;
 
