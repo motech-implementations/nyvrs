@@ -146,7 +146,6 @@
                 <configuration>
                     <instructions>
                         <Resource-Path>nyvrs/resources</Resource-Path>
-                        <Context-File>META-INF/motech/applicationContext.xml</Context-File>
                         <Context-Path>nyvrs</Context-Path>
                         <Blueprint-Enabled>true</Blueprint-Enabled>
                         <Export-Package>
@@ -156,6 +155,7 @@
                             org.motechproject.nyvrs.web;version=${project.version}
                         </Export-Package>
                         <Import-Package>
+                            org.motechproject.config.service,
                             *
                         </Import-Package>
                     </instructions>
