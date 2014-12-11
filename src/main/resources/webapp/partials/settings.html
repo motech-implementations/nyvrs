@@ -1,0 +1,16 @@
+<div class="row margin-after"><!------------------------  Settings  ------------------------------------->
+    <h4 class="frame-title">{{msg('nyvrs.settings.title')}}</h4>
+    <form id="nyvrsSettingsForm" name="nyvrsSettingsForm" class="form-horizontal col-sm-12" novalidate>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 control-label" for="motechBaseUrl">{{msg('nyvrs.settings.label.motechBaseUrl')}}:</label>
+            <div class="form-inline col-md-10 col-sm-9">
+                <input class="form-control input-auto" ng-model="settings.motechBaseUrl" type="text" id="motechBaseUrl" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-sm -offset-3 col-md-10 col-sm-9">
+                <input ng-click="submit()" type="button" value="{{msg('task.settings.submit')}}" class="btn btn-primary"/>
+            </div>
+        </div>
+    </form>
+</div>
