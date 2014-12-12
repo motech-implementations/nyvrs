@@ -12,7 +12,7 @@ public class ClientRegistration extends MdsEntity {
 
     @Unique
     @Column(length = 20)
-    @Field(name = "client_number")
+    @Field(name = "client_number", required = true)
     private String number;
 
     @Column(length = 2)
