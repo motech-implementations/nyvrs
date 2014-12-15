@@ -10,11 +10,9 @@
         </layout>
     </appender>
 
-    <logger name="archetype.test.service">
-        <level value="WARN"/>
-    </logger>
-    <logger name="org.springframework.web">
-        <level value="ERROR"/>
+    <logger name="org.motechproject.nyvrs">
+        <level value="INFO"/>
+        <appender-ref ref="CONSOLE"/>
     </logger>
 
     <root>
