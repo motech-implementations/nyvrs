@@ -3,6 +3,7 @@ package org.motechproject.nyvrs.domain;
 import org.motechproject.mds.annotations.Entity;
 import org.motechproject.mds.annotations.Field;
 import org.motechproject.mds.domain.MdsEntity;
+import org.motechproject.nyvrs.web.domain.RegistrationRequest;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Unique;
@@ -65,6 +66,24 @@ public class ClientRegistration extends MdsEntity {
     private CampaignType campaignType;
 
     public ClientRegistration() {
+    }
+
+    public ClientRegistration(String number, String gender, String age, EducationLevel educationLevel,
+                              ChannelType channel) {
+        this.number = number;
+        this.gender = gender;
+        this.age = age;
+        this.educationLevel = educationLevel;
+        this.channel = channel;
+
+        if (Integer.parseInt(age) > 19) {
+            campaignType = CampaignType.RITA;
+        } else if (educationLevel == EducationLevel.NA) {
+            campaignType = CampaignType.KIKI;
+        } else {
+            campaignType = CampaignType.RONALD;
+        }
+        this.status = StatusType.Incomplete;
     }
 
     public ClientRegistration(String number, String gender, String age, EducationLevel educationLevel, String location,

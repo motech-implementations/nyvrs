@@ -1,19 +1,23 @@
 package org.motechproject.nyvrs.web;
 
 import org.apache.commons.io.IOUtils;
+import org.motechproject.nyvrs.domain.ClientRegistration;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
-import org.motechproject.nyvrs.service.NyvrsService;
+import org.motechproject.nyvrs.web.domain.RegistrationRequest;
+import org.motechproject.nyvrs.web.domain.ValidationError;
 import org.motechproject.server.config.SettingsFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Controller for NYVRS
@@ -23,13 +27,10 @@ import java.io.InputStream;
 public class NyvrsController {
 
     @Autowired
-    ClientRegistrationService clientRegistrationService;
-
-    @Autowired
     private SettingsFacade settingsFacade;
 
     @Autowired
-    private NyvrsService nyvrsService;
+    private ClientRegistrationService clientRegistrationService;
 
     private static final String OK = "OK";
     private static final Logger LOG = LoggerFactory.getLogger(NyvrsController.class);
@@ -71,6 +72,26 @@ public class NyvrsController {
         } else {
             LOG.info("The client with number " + number + " is NOT registered in NYVRS");
             return "{ isRegistered: false }";
+        }
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public ResponseEntity<Object> register(@RequestBody RegistrationRequest registrationRequest) {
+
+        List<ValidationError> errors = registrationRequest.validate();
+        if (errors.isEmpty() && clientRegistrationService.findClientRegistrationByNumber(
+                registrationRequest.getCallerId().toString()) != null) {
+            errors.add(new ValidationError("Already registered"));
+        }
+
+        if (errors.isEmpty()) {
+            ClientRegistration clientRegistration = new ClientRegistration(registrationRequest.getCallerId().toString(),
+                    registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
+                    registrationRequest.getEducationLevel(), registrationRequest.getChannel());
+            clientRegistrationService.add(clientRegistration);
+            return new ResponseEntity<Object>("Registered successfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Object>(errors, HttpStatus.OK);
         }
     }
 
