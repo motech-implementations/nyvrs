@@ -17,6 +17,14 @@ public class RegistrationRequest {
     public RegistrationRequest() {
     }
 
+    public RegistrationRequest(String callerId, String age, String gender, String educationLevel, String channel) {
+        this.callerId = Long.parseLong(callerId);
+        this.age = Integer.parseInt(age);
+        this.gender = Gender.valueOf(gender);
+        this.educationLevel = EducationLevel.valueOf(educationLevel);
+        this.channel = ChannelType.valueOf(channel);
+    }
+
     public RegistrationRequest(Long callerId, Integer age, Gender gender, EducationLevel educationLevel,
                                ChannelType channel) {
         this.callerId = callerId;

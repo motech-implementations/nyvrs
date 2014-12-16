@@ -75,8 +75,14 @@ public class NyvrsController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<Object> register(@RequestBody RegistrationRequest registrationRequest) {
+    @RequestMapping(value = "/register")
+    public ResponseEntity<Object> register(HttpServletRequest request) {
+        String callerId = request.getParameter("callerId");
+        String age = request.getParameter("age");
+        String gender = request.getParameter("gender");
+        String educationLevel = request.getParameter("educationLevel");
+        String channel = request.getParameter("channel");
+        RegistrationRequest registrationRequest = new RegistrationRequest(callerId, age, gender, educationLevel, channel);
 
         List<ValidationError> errors = registrationRequest.validate();
         if (errors.isEmpty() && clientRegistrationService.findClientRegistrationByNumber(
