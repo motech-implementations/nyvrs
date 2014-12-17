@@ -60,20 +60,20 @@ public class NyvrsController {
 
     @RequestMapping(value = "/isRegistered")
     @ResponseBody
-    public String isRegistered(HttpServletRequest request) throws IOException {
-        String number = request.getParameter("number");
+    public ResponseEntity<String> isRegistered(HttpServletRequest request) throws IOException {
+        String callerId = request.getParameter("callerId");
 
-        if (number == null) {
-            LOG.info("The request doesn't contain number attribute");
-            return "The request doesn't contain number attribute";
+        if (callerId == null) {
+            LOG.info("The request doesn't contain callerId parameter");
+            return new ResponseEntity<>("The request doesn't callerId parameter", HttpStatus.BAD_REQUEST);
         }
 
-        if (clientRegistrationService.findClientRegistrationByNumber(number) != null) {
-            LOG.info("The client with number " + number + " is registered in NYVRS");
-            return "{ isRegistered: true }";
+        if (clientRegistrationService.findClientRegistrationByNumber(callerId) != null) {
+            LOG.info("Client with callerId " + callerId + " is already registered in NYVRS");
+            return new ResponseEntity<>("Already registered", HttpStatus.OK);
         } else {
-            LOG.info("The client with number " + number + " is NOT registered in NYVRS");
-            return "{ isRegistered: false }";
+            LOG.info("Client with callerId " + callerId + " is NOT registered in NYVRS");
+            return new ResponseEntity<>("Client is not registered", HttpStatus.OK);
         }
     }
 
