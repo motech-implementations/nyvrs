@@ -60,7 +60,7 @@ public class RegistrationRequest {
         if (callerId == null || callerId <= 0) {
             errors.add(new ValidationError("Invalid caller id"));
         }
-        if (age < 15 || age > 24) {
+        if (age == null || age < 15 || age > 24) {
             errors.add(new ValidationError("Age should be between 15 and 24"));
         }
         if (gender == null) {

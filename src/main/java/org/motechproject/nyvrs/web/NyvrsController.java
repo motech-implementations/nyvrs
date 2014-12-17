@@ -1,6 +1,7 @@
 package org.motechproject.nyvrs.web;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.motechproject.nyvrs.domain.ClientRegistration;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.web.domain.RegistrationRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,28 +78,34 @@ public class NyvrsController {
     }
 
     @RequestMapping(value = "/register")
-    public ResponseEntity<Object> register(HttpServletRequest request) {
+    public ResponseEntity<String> register(HttpServletRequest request) {
         String callerId = request.getParameter("callerId");
         String age = request.getParameter("age");
         String gender = request.getParameter("gender");
         String educationLevel = request.getParameter("educationLevel");
         String channel = request.getParameter("channel");
-        RegistrationRequest registrationRequest = new RegistrationRequest(callerId, age, gender, educationLevel, channel);
 
-        List<ValidationError> errors = registrationRequest.validate();
-        if (errors.isEmpty() && clientRegistrationService.findClientRegistrationByNumber(
-                registrationRequest.getCallerId().toString()) != null) {
-            errors.add(new ValidationError("Already registered"));
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+        RegistrationRequest registrationRequest = null;
+        try {
+            registrationRequest = new RegistrationRequest(callerId, age, gender, educationLevel, channel);
+            errors = registrationRequest.validate();
+            if (errors.isEmpty() && clientRegistrationService.findClientRegistrationByNumber(
+                    registrationRequest.getCallerId().toString()) != null) {
+                errors.add(new ValidationError("Already registered"));
+            }
+        } catch (IllegalArgumentException e) {
+            errors.add(new ValidationError("Invalid or missing arguments"));
         }
 
-        if (errors.isEmpty()) {
+        if (registrationRequest != null && errors.isEmpty()) {
             ClientRegistration clientRegistration = new ClientRegistration(registrationRequest.getCallerId().toString(),
                     registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
                     registrationRequest.getEducationLevel(), registrationRequest.getChannel());
             clientRegistrationService.add(clientRegistration);
-            return new ResponseEntity<Object>("Registered successfully", HttpStatus.OK);
+            return new ResponseEntity<String>("success", HttpStatus.OK);
         } else {
-            return new ResponseEntity<Object>(errors, HttpStatus.OK);
+            return new ResponseEntity<String>(StringUtils.join(errors, ", "), HttpStatus.OK);
         }
     }
 
