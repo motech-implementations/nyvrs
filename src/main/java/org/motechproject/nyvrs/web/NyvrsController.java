@@ -77,7 +77,7 @@ public class NyvrsController {
         }
     }
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> register(HttpServletRequest request) {
         String callerId = request.getParameter("callerId");
         String language = request.getParameter("language");
@@ -90,6 +90,31 @@ public class NyvrsController {
         RegistrationRequest registrationRequest = null;
         try {
             registrationRequest = new RegistrationRequest(callerId, language, age, gender, educationLevel, channel);
+            errors = registrationRequest.validate();
+            if (errors.isEmpty() && clientRegistrationService.findClientRegistrationByNumber(
+                    registrationRequest.getCallerId().toString()) != null) {
+                errors.add(new ValidationError("Already registered"));
+            }
+        } catch (IllegalArgumentException e) {
+            errors.add(new ValidationError("Invalid or missing arguments"));
+        }
+
+        if (registrationRequest != null && errors.isEmpty()) {
+            ClientRegistration clientRegistration = new ClientRegistration(registrationRequest.getCallerId().toString(),
+                    registrationRequest.getLanguage(), registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
+                    registrationRequest.getEducationLevel(), registrationRequest.getChannel());
+            clientRegistrationService.add(clientRegistration);
+            return new ResponseEntity<String>("success", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<String>(StringUtils.join(errors, ", "), HttpStatus.OK);
+        }
+    }
+
+    @RequestMapping(value = "/register", consumes = "application/json", method = RequestMethod.POST)
+    public ResponseEntity<String> register(@RequestBody RegistrationRequest registrationRequest) {
+
+        List<ValidationError> errors = new ArrayList<ValidationError>();
+        try {
             errors = registrationRequest.validate();
             if (errors.isEmpty() && clientRegistrationService.findClientRegistrationByNumber(
                     registrationRequest.getCallerId().toString()) != null) {
