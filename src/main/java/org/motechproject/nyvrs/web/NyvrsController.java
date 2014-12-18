@@ -128,7 +128,7 @@ public class NyvrsController {
 
         if (registrationRequest != null && errors.isEmpty()) {
             ClientRegistration clientRegistration = new ClientRegistration(registrationRequest.getCallerId().toString(),
-                    registrationRequest.getLanguage(), registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
+                    registrationRequest.getLanguage().getValue(), registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
                     registrationRequest.getEducationLevel(), registrationRequest.getChannel());
             clientRegistrationService.add(clientRegistration);
             return new ResponseEntity<String>("success", HttpStatus.OK);
