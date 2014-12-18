@@ -58,7 +58,7 @@ public class NyvrsController {
         return manifestBody.replace("URL_BASE", callbackBaseUrl);
     }
 
-    @RequestMapping(value = "/isRegistered")
+    @RequestMapping(value = "/isRegistered", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<String> isRegistered(HttpServletRequest request) throws IOException {
         String callerId = request.getParameter("callerId");
