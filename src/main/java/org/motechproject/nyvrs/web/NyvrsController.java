@@ -95,13 +95,15 @@ public class NyvrsController {
                     registrationRequest.getCallerId().toString()) != null) {
                 errors.add(new ValidationError("Already registered"));
             }
+        } catch (NullPointerException e) {
+            errors.add(new ValidationError("Missing parameters."));
         } catch (IllegalArgumentException e) {
-            errors.add(new ValidationError("Invalid or missing arguments"));
+            errors.add(new ValidationError("Invalid parameters."));
         }
 
         if (registrationRequest != null && errors.isEmpty()) {
             ClientRegistration clientRegistration = new ClientRegistration(registrationRequest.getCallerId().toString(),
-                    registrationRequest.getLanguage(), registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
+                    registrationRequest.getLanguage().toString(), registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
                     registrationRequest.getEducationLevel(), registrationRequest.getChannel());
             clientRegistrationService.add(clientRegistration);
             return new ResponseEntity<String>("success", HttpStatus.OK);

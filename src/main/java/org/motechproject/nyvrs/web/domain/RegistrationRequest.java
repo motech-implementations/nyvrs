@@ -9,7 +9,7 @@ import java.util.List;
 public class RegistrationRequest {
 
     private Long callerId;
-    private String language;
+    private Language language;
     private Integer age;
     private Gender gender;
     private EducationLevel educationLevel;
@@ -20,14 +20,14 @@ public class RegistrationRequest {
 
     public RegistrationRequest(String callerId, String language, String age, String gender, String educationLevel, String channel) {
         this.callerId = Long.parseLong(callerId);
-        this.language = language;
+        this.language = Language.valueOf(language);
         this.age = Integer.parseInt(age);
         this.gender = Gender.valueOf(gender);
         this.educationLevel = EducationLevel.valueOf(educationLevel);
         this.channel = ChannelType.valueOf(channel);
     }
 
-    public RegistrationRequest(Long callerId, String language, Integer age, Gender gender, EducationLevel educationLevel,
+    public RegistrationRequest(Long callerId, Language language, Integer age, Gender gender, EducationLevel educationLevel,
                                ChannelType channel) {
         this.callerId = callerId;
         this.language = language;
@@ -41,7 +41,7 @@ public class RegistrationRequest {
         return callerId;
     }
 
-    public String getLanguage() {
+    public Language getLanguage() {
         return language;
     }
 
@@ -67,7 +67,7 @@ public class RegistrationRequest {
         if (callerId == null || callerId <= 0) {
             errors.add(new ValidationError("Invalid caller id"));
         }
-        if (callerId == null || callerId <= 0) {
+        if (language == null) {
             errors.add(new ValidationError("Invalid language"));
         }
         if (age == null || age < 15 || age > 24) {
