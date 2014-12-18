@@ -80,6 +80,7 @@ public class NyvrsController {
     @RequestMapping(value = "/register")
     public ResponseEntity<String> register(HttpServletRequest request) {
         String callerId = request.getParameter("callerId");
+        String language = request.getParameter("language");
         String age = request.getParameter("age");
         String gender = request.getParameter("gender");
         String educationLevel = request.getParameter("educationLevel");
@@ -88,7 +89,7 @@ public class NyvrsController {
         List<ValidationError> errors = new ArrayList<ValidationError>();
         RegistrationRequest registrationRequest = null;
         try {
-            registrationRequest = new RegistrationRequest(callerId, age, gender, educationLevel, channel);
+            registrationRequest = new RegistrationRequest(callerId, language, age, gender, educationLevel, channel);
             errors = registrationRequest.validate();
             if (errors.isEmpty() && clientRegistrationService.findClientRegistrationByNumber(
                     registrationRequest.getCallerId().toString()) != null) {
@@ -100,7 +101,7 @@ public class NyvrsController {
 
         if (registrationRequest != null && errors.isEmpty()) {
             ClientRegistration clientRegistration = new ClientRegistration(registrationRequest.getCallerId().toString(),
-                    registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
+                    registrationRequest.getLanguage(), registrationRequest.getGender().getValue(), registrationRequest.getAge().toString(),
                     registrationRequest.getEducationLevel(), registrationRequest.getChannel());
             clientRegistrationService.add(clientRegistration);
             return new ResponseEntity<String>("success", HttpStatus.OK);

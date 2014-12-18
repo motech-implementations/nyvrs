@@ -68,9 +68,10 @@ public class ClientRegistration extends MdsEntity {
     public ClientRegistration() {
     }
 
-    public ClientRegistration(String number, String gender, String age, EducationLevel educationLevel,
+    public ClientRegistration(String number, String language, String gender, String age, EducationLevel educationLevel,
                               ChannelType channel) {
         this.number = number;
+        this.language = language;
         this.gender = gender;
         this.age = age;
         this.educationLevel = educationLevel;

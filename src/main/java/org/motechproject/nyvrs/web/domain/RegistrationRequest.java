@@ -9,6 +9,7 @@ import java.util.List;
 public class RegistrationRequest {
 
     private Long callerId;
+    private String language;
     private Integer age;
     private Gender gender;
     private EducationLevel educationLevel;
@@ -17,17 +18,19 @@ public class RegistrationRequest {
     public RegistrationRequest() {
     }
 
-    public RegistrationRequest(String callerId, String age, String gender, String educationLevel, String channel) {
+    public RegistrationRequest(String callerId, String language, String age, String gender, String educationLevel, String channel) {
         this.callerId = Long.parseLong(callerId);
+        this.language = language;
         this.age = Integer.parseInt(age);
         this.gender = Gender.valueOf(gender);
         this.educationLevel = EducationLevel.valueOf(educationLevel);
         this.channel = ChannelType.valueOf(channel);
     }
 
-    public RegistrationRequest(Long callerId, Integer age, Gender gender, EducationLevel educationLevel,
+    public RegistrationRequest(Long callerId, String language, Integer age, Gender gender, EducationLevel educationLevel,
                                ChannelType channel) {
         this.callerId = callerId;
+        this.language = language;
         this.age = age;
         this.gender = gender;
         this.educationLevel = educationLevel;
@@ -36,6 +39,10 @@ public class RegistrationRequest {
 
     public Long getCallerId() {
         return callerId;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     public Integer getAge() {
@@ -59,6 +66,9 @@ public class RegistrationRequest {
 
         if (callerId == null || callerId <= 0) {
             errors.add(new ValidationError("Invalid caller id"));
+        }
+        if (callerId == null || callerId <= 0) {
+            errors.add(new ValidationError("Invalid language"));
         }
         if (age == null || age < 15 || age > 24) {
             errors.add(new ValidationError("Age should be between 15 and 24"));
