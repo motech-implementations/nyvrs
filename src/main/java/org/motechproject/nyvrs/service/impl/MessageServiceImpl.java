@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
  * Simple implementation of the {@link org.motechproject.nyvrs.service.MessageService} interface.
  */
 @Service("messageService")
-public class MessageServiceImpl implements MessageService {
+public abstract class MessageServiceImpl implements MessageService {
 
 
 
