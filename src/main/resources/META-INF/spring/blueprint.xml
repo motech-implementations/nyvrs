@@ -22,8 +22,8 @@
         <property name="defaultURL" value="/nyvrs/settings" />
     </bean>
     
-    <osgi:service ref="nyvrsService"
-                  interface="org.motechproject.nyvrs.service.NyvrsService" />
+    <osgi:service ref="messageService"
+                  interface="org.motechproject.nyvrs.service.MessageService" />
 
     <osgi:service ref="clientRegistrationService"
                   interface="org.motechproject.nyvrs.service.ClientRegistrationService" />

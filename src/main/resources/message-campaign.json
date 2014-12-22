@@ -1,0 +1,17 @@
+[
+  {
+    "name" : "KIKI" ,
+    "type":"REPEAT_INTERVAL",
+    "maxDuration":"26 weeks",
+    "messages" : [
+      {
+        "name" : "Weekly Message",
+        "formats" : ["IVR", "SMS"],
+        "languages" : ["en", "twi", "ewe", "hau"],
+        "messageKey": "week-{Offset}",
+        "repeatEvery": "1 Week",
+        "startTime":"7:00"
+      }
+    ]
+  }
+]

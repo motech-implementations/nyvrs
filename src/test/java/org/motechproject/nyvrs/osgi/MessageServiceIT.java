@@ -2,7 +2,7 @@ package org.motechproject.nyvrs.osgi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.motechproject.nyvrs.service.NyvrsService;
+import org.motechproject.nyvrs.service.MessageService;
 import org.motechproject.testing.osgi.BasePaxIT;
 import org.motechproject.testing.osgi.container.MotechNativeTestContainerFactory;
 import org.ops4j.pax.exam.ExamFactory;
@@ -15,18 +15,18 @@ import javax.inject.Inject;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Verify that NyvrsService present, functional.
+ * Verify that MessageService present, functional.
  */
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerSuite.class)
 @ExamFactory(MotechNativeTestContainerFactory.class)
-public class NyvrsServiceIT extends BasePaxIT {
+public class MessageServiceIT extends BasePaxIT {
 
     @Inject
-    private NyvrsService nyvrsService;
+    private MessageService messageService;
 
     @Test
-    public void testNyvrsServicePresent() throws Exception {
-        assertNotNull(nyvrsService);
+    public void testMessageServicePresent() throws Exception {
+        assertNotNull(messageService);
     }
 }

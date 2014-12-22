@@ -21,12 +21,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Controller for NYVRS
- */
 @Controller
 @RequestMapping("/web-api")
-public class NyvrsController {
+public class RegistrationController {
 
     @Autowired
     private SettingsFacade settingsFacade;
@@ -35,7 +32,7 @@ public class NyvrsController {
     private ClientRegistrationService clientRegistrationService;
 
     private static final String OK = "OK";
-    private static final Logger LOG = LoggerFactory.getLogger(NyvrsController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RegistrationController.class);
 
     @RequestMapping("/status")
     @ResponseBody

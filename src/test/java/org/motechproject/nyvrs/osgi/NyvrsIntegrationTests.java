@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        NyvrsServiceIT.class
+        MessageServiceIT.class
 })
 public class NyvrsIntegrationTests {
 }
