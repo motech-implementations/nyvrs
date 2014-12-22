@@ -17,7 +17,6 @@ import static org.apache.commons.lang.StringUtils.isNotBlank;
 @Controller
 @RequestMapping("/api")
 public class SettingsController {
-    private static final String MOTECH_BASE_URL = "motech.base.url";
 
     private SettingsFacade settingsFacade;
 
@@ -30,7 +29,7 @@ public class SettingsController {
     @ResponseBody
     public SettingsDto getSettings() {
         SettingsDto dto = new SettingsDto();
-        dto.setMotechBaseUrl(getPropertyValue(MOTECH_BASE_URL));
+        dto.setIvrCallUrl(getPropertyValue(SettingsDto.IVR_CALL_URL));
         return dto;
     }
 
@@ -38,7 +37,7 @@ public class SettingsController {
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
     public void saveSettings(@RequestBody SettingsDto settings) throws BundleException {
         if (settings.isValid()) {
-            settingsFacade.setProperty(MOTECH_BASE_URL, settings.getMotechBaseUrl());
+            settingsFacade.setProperty(SettingsDto.IVR_CALL_URL, settings.getIvrCallUrl());
         } else {
             throw new IllegalArgumentException("Settings are not valid");
         }

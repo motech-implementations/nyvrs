@@ -2,6 +2,7 @@ package org.motechproject.nyvrs.osgi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.motechproject.nyvrs.domain.CampaignType;
 import org.motechproject.nyvrs.service.MessageService;
 import org.motechproject.testing.osgi.BasePaxIT;
 import org.motechproject.testing.osgi.container.MotechNativeTestContainerFactory;
@@ -29,4 +30,10 @@ public class MessageServiceIT extends BasePaxIT {
     public void testMessageServicePresent() throws Exception {
         assertNotNull(messageService);
     }
+
+    @Test
+    public void shouldMakeACallRequest() throws Exception {
+        messageService.playMessage(12345L, CampaignType.KIKI, 0);
+    }
+
 }

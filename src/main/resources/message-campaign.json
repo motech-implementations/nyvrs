@@ -1,16 +1,70 @@
 [
   {
-    "name" : "KIKI" ,
-    "type":"REPEAT_INTERVAL",
-    "maxDuration":"26 weeks",
-    "messages" : [
+    "name": "KIKI",
+    "type": "REPEAT_INTERVAL",
+    "maxDuration": "26 weeks",
+    "messages": [
       {
-        "name" : "Weekly Message",
-        "formats" : ["IVR", "SMS"],
-        "languages" : ["en", "twi", "ewe", "hau"],
+        "name": "Weekly Message",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en",
+          "twi",
+          "ewe",
+          "hau"
+        ],
         "messageKey": "week-{Offset}",
         "repeatEvery": "1 Week",
-        "startTime":"7:00"
+        "startTime": "7:00"
+      }
+    ]
+  },
+  {
+    "name": "RONALD",
+    "type": "REPEAT_INTERVAL",
+    "maxDuration": "26 weeks",
+    "messages": [
+      {
+        "name": "Weekly Message",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en",
+          "twi",
+          "ewe",
+          "hau"
+        ],
+        "messageKey": "week-{Offset}",
+        "repeatEvery": "1 Week",
+        "startTime": "7:00"
+      }
+    ]
+  },
+  {
+    "name": "RITA",
+    "type": "REPEAT_INTERVAL",
+    "maxDuration": "26 weeks",
+    "messages": [
+      {
+        "name": "Weekly Message",
+        "formats": [
+          "IVR",
+          "SMS"
+        ],
+        "languages": [
+          "en",
+          "twi",
+          "ewe",
+          "hau"
+        ],
+        "messageKey": "week-{Offset}",
+        "repeatEvery": "1 Week",
+        "startTime": "7:00"
       }
     ]
   }

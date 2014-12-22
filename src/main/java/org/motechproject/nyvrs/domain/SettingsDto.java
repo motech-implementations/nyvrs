@@ -5,19 +5,21 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class SettingsDto {
 
-    private String motechBaseUrl;
+    public static final String IVR_CALL_URL = "ivr.call.url";
 
-    public String getMotechBaseUrl() {
-        return motechBaseUrl;
+    private String ivrCallUrl;
+
+    public String getIvrCallUrl() {
+        return ivrCallUrl;
     }
 
-    public void setMotechBaseUrl(String motechBaseUrl) {
-        this.motechBaseUrl = motechBaseUrl;
+    public void setIvrCallUrl(String ivrUrl) {
+        this.ivrCallUrl = ivrUrl;
     }
 
     @JsonIgnore
     public boolean isValid() {
-        if (StringUtils.isEmpty(motechBaseUrl)) {
+        if (StringUtils.isEmpty(ivrCallUrl)) {
             return false;
         }
         return true;

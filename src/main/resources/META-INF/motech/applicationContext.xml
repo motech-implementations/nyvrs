@@ -18,11 +18,6 @@
                 <value>classpath:nyvrs.properties</value>
             </list>
         </property>
-        <property name="rawConfigFiles">
-            <list>
-                <value>classpath:nyvrsVerboiceManifest.xml</value>
-            </list>
-        </property>
     </bean>
 
 </beans>
