@@ -1,8 +1,7 @@
 package org.motechproject.nyvrs.service.impl;
 
-import org.motechproject.nyvrs.domain.CampaignType;
-import org.motechproject.nyvrs.domain.IVRResponse;
-import org.motechproject.nyvrs.domain.SettingsDto;
+import org.motechproject.nyvrs.domain.*;
+import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.service.MessageService;
 import org.motechproject.server.config.SettingsFacade;
 import org.slf4j.Logger;
@@ -23,25 +22,39 @@ public class MessageServiceImpl implements MessageService {
     private SettingsFacade settingsFacade;
 
     @Autowired
+    ClientRegistrationService clientRegistrationService;
+
+    @Autowired
     public MessageServiceImpl(final SettingsFacade settingsFacade) {
         this.settingsFacade = settingsFacade;
     }
 
     @Override
-    public void playMessage(Long callerId, CampaignType campaignType, Integer week) {
+    public void playMessage(MessageRequest messageRequest) {
 
-        // TODO check queue/scheduler status
-        String ivrUrl = settingsFacade.getProperty(SettingsDto.IVR_CALL_URL);
-        RestTemplate restTemplate = new RestTemplate();
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ivrUrl)
-                .queryParam("number", callerId)
-                .queryParam("campaignType", campaignType)
-                .queryParam("week", week);
-        IVRResponse response = restTemplate.getForObject(builder.build().toUriString(), IVRResponse.class);
+        String sipName = settingsFacade.getProperty(SettingsDto.ASTERISK_SIP_NAME);
+        Long callerId = messageRequest.getCallerId();
+        ClientRegistration client = clientRegistrationService.findClientRegistrationByNumber(callerId.toString());
+        if (client == null) {
+            LOG.error("Could not find a client with caller id: " + callerId);
+        } else {
+            String language = client.getLanguage();
+            // e.g. Set1Day0Week03
+            String filename = String.format("%sDay0Week%02d", client.getCampaignType().getValue(), messageRequest.getWeek());
+            String callContent = String.format("Channel: SIP/%s/%d\n" +
+                    "MaxRetries: 0\n" +
+                    "RetryTime: 60\n" +
+                    "WaitTime: 30\n" +
+                    "Context: playMessage\n" +
+                    "Extension: s\n" +
+                    "SetVar: language=%s\n" +
+                    "SetVar: filename=%s\n", sipName, callerId, language, filename);
 
-        if (response.getError()) {
-            LOG.error("Failed to play message for callerId " + callerId + "\nIVR Response: " + response.getMessages());
-            // TODO reschedule
+            // TODO check queue/scheduler status
+            String callDir = settingsFacade.getProperty(SettingsDto.ASTERISK_CALL_DIR);
+
+            // TODO move .call file to the asterisk outgoing call directory
+
         }
     }
 

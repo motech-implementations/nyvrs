@@ -1,10 +1,22 @@
 <div class="row margin-after nyvrs">
     <h4 class="frame-title">{{msg('nyvrs.settings.title')}}</h4>
     <form id="nyvrsSettingsForm" name="nyvrsSettingsForm" class="form-horizontal col-sm-12" novalidate>
+        <!--<div class="form-group">-->
+            <!--<label class="col-md-2 col-sm-3 control-label" for="ivrUrl">{{msg('nyvrs.settings.label.ivrUrl')}}:</label>-->
+            <!--<div class="col-md-10 col-sm-9">-->
+                <!--<input class="form-control input-xxlarge" ng-model="settings.ivrCallUrl" type="text" id="ivrUrl" required/>-->
+            <!--</div>-->
+        <!--</div>-->
         <div class="form-group">
-            <label class="col-md-2 col-sm-3 control-label" for="ivrUrl">{{msg('nyvrs.settings.label.ivrUrl')}}:</label>
+            <label class="col-md-2 col-sm-3 control-label" for="sipName">{{msg('nyvrs.settings.label.sipName')}}:</label>
             <div class="col-md-10 col-sm-9">
-                <input class="form-control input-xxlarge" ng-model="settings.ivrUrl" type="text" id="ivrUrl" required/>
+                <input class="form-control input-large" ng-model="settings.asteriskSipName" type="text" id="sipName" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 control-label" for="callDir">{{msg('nyvrs.settings.label.callDir')}}:</label>
+            <div class="col-md-10 col-sm-9">
+                <input class="form-control input-large" ng-model="settings.asteriskCallDir" type="text" id="callDir" required/>
             </div>
         </div>
         <div class="form-group">

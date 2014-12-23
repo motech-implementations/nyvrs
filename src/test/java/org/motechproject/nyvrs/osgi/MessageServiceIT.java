@@ -3,6 +3,7 @@ package org.motechproject.nyvrs.osgi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.motechproject.nyvrs.domain.CampaignType;
+import org.motechproject.nyvrs.domain.MessageRequest;
 import org.motechproject.nyvrs.service.MessageService;
 import org.motechproject.testing.osgi.BasePaxIT;
 import org.motechproject.testing.osgi.container.MotechNativeTestContainerFactory;
@@ -33,7 +34,7 @@ public class MessageServiceIT extends BasePaxIT {
 
     @Test
     public void shouldMakeACallRequest() throws Exception {
-        messageService.playMessage(12345L, CampaignType.KIKI, 0);
+        messageService.playMessage(new MessageRequest(12345L, 0, 0));
     }
 
 }

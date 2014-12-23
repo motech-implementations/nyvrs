@@ -29,7 +29,9 @@ public class SettingsController {
     @ResponseBody
     public SettingsDto getSettings() {
         SettingsDto dto = new SettingsDto();
-        dto.setIvrCallUrl(getPropertyValue(SettingsDto.IVR_CALL_URL));
+        //dto.setIvrCallUrl(getPropertyValue(SettingsDto.IVR_CALL_URL));
+        dto.setAsteriskSipName(getPropertyValue(SettingsDto.ASTERISK_SIP_NAME));
+        dto.setAsteriskCallDir(getPropertyValue(SettingsDto.ASTERISK_CALL_DIR));
         return dto;
     }
 
@@ -37,7 +39,9 @@ public class SettingsController {
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
     public void saveSettings(@RequestBody SettingsDto settings) throws BundleException {
         if (settings.isValid()) {
-            settingsFacade.setProperty(SettingsDto.IVR_CALL_URL, settings.getIvrCallUrl());
+            //settingsFacade.setProperty(SettingsDto.IVR_CALL_URL, settings.getIvrCallUrl());
+            settingsFacade.setProperty(SettingsDto.ASTERISK_SIP_NAME, settings.getAsteriskSipName());
+            settingsFacade.setProperty(SettingsDto.ASTERISK_CALL_DIR, settings.getAsteriskCallDir());
         } else {
             throw new IllegalArgumentException("Settings are not valid");
         }

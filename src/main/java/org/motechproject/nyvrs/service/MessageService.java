@@ -1,9 +1,9 @@
 package org.motechproject.nyvrs.service;
 
-import org.motechproject.nyvrs.domain.CampaignType;
+import org.motechproject.nyvrs.domain.MessageRequest;
 
 public interface MessageService {
 
-    void playMessage(Long callerId, CampaignType campaignType, Integer week);
+    void playMessage(MessageRequest messageRequest);
 
 }
