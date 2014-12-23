@@ -37,10 +37,10 @@ public class MessageServiceIT extends BasePaxIT {
 
     @Test
     public void shouldMakeACallRequest() throws Exception {
-        String callerId = "123456321";
+        String callerId = "123456432";
         ClientRegistration clientRegistration = clientRegistrationService.findClientRegistrationByNumber(callerId);
         if (clientRegistration == null) {
-            clientRegistration = new ClientRegistration("12345", "ENGLISH", "M", "21", EducationLevel.OTH, ChannelType.V);
+            clientRegistration = new ClientRegistration(callerId, "ENGLISH", "M", "21", EducationLevel.OTH, ChannelType.V);
             clientRegistrationService.add(clientRegistration);
         }
         messageService.playMessage(new MessageRequest(Long.valueOf(clientRegistration.getNumber()), 0, 0));
