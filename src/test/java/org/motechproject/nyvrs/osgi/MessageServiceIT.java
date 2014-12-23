@@ -2,8 +2,8 @@ package org.motechproject.nyvrs.osgi;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.motechproject.nyvrs.domain.CampaignType;
-import org.motechproject.nyvrs.domain.MessageRequest;
+import org.motechproject.nyvrs.domain.*;
+import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.service.MessageService;
 import org.motechproject.testing.osgi.BasePaxIT;
 import org.motechproject.testing.osgi.container.MotechNativeTestContainerFactory;
@@ -27,6 +27,9 @@ public class MessageServiceIT extends BasePaxIT {
     @Inject
     private MessageService messageService;
 
+    @Inject
+    private ClientRegistrationService clientRegistrationService;
+
     @Test
     public void testMessageServicePresent() throws Exception {
         assertNotNull(messageService);
@@ -34,7 +37,14 @@ public class MessageServiceIT extends BasePaxIT {
 
     @Test
     public void shouldMakeACallRequest() throws Exception {
-        messageService.playMessage(new MessageRequest(12345L, 0, 0));
+        String callerId = "123456321";
+        ClientRegistration clientRegistration = clientRegistrationService.findClientRegistrationByNumber(callerId);
+        if (clientRegistration == null) {
+            clientRegistration = new ClientRegistration("12345", "ENGLISH", "M", "21", EducationLevel.OTH, ChannelType.V);
+            clientRegistrationService.add(clientRegistration);
+        }
+        messageService.playMessage(new MessageRequest(Long.valueOf(clientRegistration.getNumber()), 0, 0));
+        clientRegistrationService.delete(clientRegistration);
     }
 
 }

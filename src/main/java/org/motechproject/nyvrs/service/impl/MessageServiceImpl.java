@@ -1,5 +1,6 @@
 package org.motechproject.nyvrs.service.impl;
 
+import org.apache.commons.io.FileUtils;
 import org.motechproject.nyvrs.domain.*;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.service.MessageService;
@@ -8,8 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Implementation of the {@link org.motechproject.nyvrs.service.MessageService} interface.
@@ -52,9 +54,12 @@ public class MessageServiceImpl implements MessageService {
 
             // TODO check queue/scheduler status
             String callDir = settingsFacade.getProperty(SettingsDto.ASTERISK_CALL_DIR);
-
-            // TODO move .call file to the asterisk outgoing call directory
-
+            File callFile = new File(callDir, callerId + ".call");
+            try {
+                FileUtils.writeStringToFile(callFile, callContent);
+            } catch (IOException ioe) {
+                LOG.error("Could not save " + callFile.getAbsolutePath());
+            }
         }
     }
 
