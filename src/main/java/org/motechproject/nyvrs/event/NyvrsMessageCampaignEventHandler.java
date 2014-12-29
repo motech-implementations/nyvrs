@@ -25,14 +25,12 @@ public class NyvrsMessageCampaignEventHandler {
     private MessageService messageService;
     private ClientRegistrationService clientRegistrationService;
     private MessageRequestService messageRequestService;
-    private SettingsFacade settingsFacade;
 
     @Autowired
     public NyvrsMessageCampaignEventHandler(MessageService messageService, ClientRegistrationService clientRegistrationService,
-                                            MessageRequestService messageRequestService, final SettingsFacade settingsFacade) {
+                                            MessageRequestService messageRequestService) {
         this.messageService = messageService;
         this.clientRegistrationService = clientRegistrationService;
-        this.settingsFacade = settingsFacade;
     }
 
     @MotechListener(subjects = { EventKeys.SEND_MESSAGE })
@@ -43,8 +41,7 @@ public class NyvrsMessageCampaignEventHandler {
         String clientId = (String) parametersMap.get("ExternalID");
 
         ClientRegistration clientRegistration = clientRegistrationService.getById(Long.valueOf(clientId));
-        MessageRequest messageRequest = new MessageRequest(clientRegistration.getNumber(), clientRegistration.getNyWeeks(),
-                Integer.valueOf(settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES)));
+        MessageRequest messageRequest = new MessageRequest(clientRegistration.getNumber(), clientRegistration.getNyWeeks());
         messageRequestService.add(messageRequest);
         messageService.playMessage(messageRequest);
     }

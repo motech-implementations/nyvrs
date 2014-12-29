@@ -10,6 +10,7 @@ import org.motechproject.nyvrs.domain.SettingsDto;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.service.MessageRequestService;
 import org.motechproject.nyvrs.service.MessageService;
+import org.motechproject.nyvrs.service.SchedulerService;
 import org.motechproject.nyvrs.web.domain.RegistrationRequest;
 import org.motechproject.nyvrs.web.domain.ValidationError;
 import org.motechproject.server.config.SettingsFacade;
@@ -44,6 +45,10 @@ public class MessageController {
     @Autowired
     private MessageRequestService messageRequestService;
 
+    @Autowired
+    SchedulerService schedulerService;
+
+    @Autowired
     public MessageController(final SettingsFacade settingsFacade) {
         this.settingsFacade = settingsFacade;
     }
@@ -68,25 +73,14 @@ public class MessageController {
             clientRegistration.setNyWeeks(clientRegistration.getNyWeeks() + 1);
             clientRegistrationService.update(clientRegistration);
         } else {
-            String callDir = settingsFacade.getProperty(SettingsDto.ASTERISK_CALL_DIR);
-            File callFile = new File(callDir, callerId + ".call");
-            if (callFile.exists()) {
-                Pattern p = Pattern.compile("^StartRetry:\\s*(.*)$", Pattern.MULTILINE);
-                try {
-                    Matcher m = p.matcher(FileUtils.readFileToString(callFile));
-                    if (m.find()) {
-                        if (m.group(1).equals(String.valueOf(messageRequest.getRetryCount() - 1))) {
-                            messageRequest.setStatus(MessageRequestStatus.FAILED);
-                            messageRequestService.update(messageRequest);
-                        }
-                    } else {
-                        messageRequest.setStatus(MessageRequestStatus.FAILED);
-                        messageRequestService.update(messageRequest);
-                    }
-                } catch (IOException ioe) {
-                    LOG.error("Could not open " + callFile.getAbsolutePath());
-                }
+            String maxRetries = settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES);
+            messageRequest.setRetryCount(messageRequest.getRetryCount() + 1);
+            if (messageRequest.getRetryCount() >= Integer.parseInt(maxRetries)) {
+                messageRequest.setStatus(MessageRequestStatus.FAILED);
+            } else {
+                schedulerService.reschedule(messageRequest);
             }
+            messageRequestService.update(messageRequest);
         }
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }

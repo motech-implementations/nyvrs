@@ -19,8 +19,8 @@ public class MessageRequest extends MdsEntity {
     @Field(required = true)
     private MessageRequestStatus status;
 
-    public MessageRequest(String callerId, Integer week, Integer retryCount) {
-        this.retryCount = retryCount;
+    public MessageRequest(String callerId, Integer week) {
+        this.retryCount = 0;
         this.callerId = callerId;
         this.week = week;
         this.status = MessageRequestStatus.NEW;
