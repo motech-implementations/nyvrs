@@ -3,7 +3,6 @@ package org.motechproject.nyvrs.domain;
 import org.motechproject.mds.annotations.Entity;
 import org.motechproject.mds.annotations.Field;
 import org.motechproject.mds.domain.MdsEntity;
-import org.motechproject.nyvrs.web.domain.RegistrationRequest;
 
 import javax.jdo.annotations.Column;
 import javax.jdo.annotations.Unique;
@@ -77,6 +76,9 @@ public class ClientRegistration extends MdsEntity {
         this.educationLevel = educationLevel;
         this.channel = channel;
 
+        // Setting nyWeeks default value in constructor since MDS doesn't handle it properly
+        this.nyWeeks = 1;
+
         if (Integer.parseInt(age) > 19) {
             campaignType = CampaignType.RITA;
         } else if (educationLevel == EducationLevel.NA) {
@@ -102,7 +104,13 @@ public class ClientRegistration extends MdsEntity {
         this.language = language;
         this.excel = excel;
         this.source = source;
-        this.nyWeeks = nyWeeks;
+
+        // Setting nyWeeks default value in constructor since MDS doesn't handle it properly
+        if (nyWeeks != null) {
+            this.nyWeeks = nyWeeks;
+        } else {
+            this.nyWeeks = 1;
+        }
         this.campaignType = campaignType;
     }
 
