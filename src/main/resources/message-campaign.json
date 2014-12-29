@@ -1,13 +1,12 @@
 [
   {
-    "name": "KIKI",
-    "type": "REPEAT_INTERVAL",
+    "name": "WEDNESDAY SMS CAMPAIGN",
+    "type": "DAY_OF_WEEK",
     "maxDuration": "26 weeks",
     "messages": [
       {
-        "name": "Weekly Message",
+        "name": "Weekly Wednesday Message",
         "formats": [
-          "IVR",
           "SMS"
         ],
         "languages": [
@@ -16,22 +15,21 @@
           "ewe",
           "hau"
         ],
-        "messageKey": "week-{Offset}",
-        "repeatEvery": "1 Week",
+        "messageKey": "WednesdayMsg",
+        "repeatOn":["Wednesday"],
         "startTime": "7:00"
       }
     ]
   },
   {
-    "name": "RONALD",
-    "type": "REPEAT_INTERVAL",
+    "name": "SUNDAY IVR CAMPAIGN",
+    "type": "DAY_OF_WEEK",
     "maxDuration": "26 weeks",
     "messages": [
       {
-        "name": "Weekly Message",
+        "name": "Weekly Sunday Message",
         "formats": [
-          "IVR",
-          "SMS"
+          "IVR"
         ],
         "languages": [
           "en",
@@ -39,31 +37,8 @@
           "ewe",
           "hau"
         ],
-        "messageKey": "week-{Offset}",
-        "repeatEvery": "1 Week",
-        "startTime": "7:00"
-      }
-    ]
-  },
-  {
-    "name": "RITA",
-    "type": "REPEAT_INTERVAL",
-    "maxDuration": "26 weeks",
-    "messages": [
-      {
-        "name": "Weekly Message",
-        "formats": [
-          "IVR",
-          "SMS"
-        ],
-        "languages": [
-          "en",
-          "twi",
-          "ewe",
-          "hau"
-        ],
-        "messageKey": "week-{Offset}",
-        "repeatEvery": "1 Week",
+        "messageKey": "SundayMsg",
+        "repeatOn":["Sunday"],
         "startTime": "7:00"
       }
     ]
