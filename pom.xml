@@ -116,6 +116,11 @@
             <artifactId>org.springframework.web.servlet</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.motechproject</groupId>
+            <artifactId>message-campaign</artifactId>
+            <version>${motech.version}</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -152,7 +157,8 @@
                             org.motechproject.nyvrs.service;version=${project.version},
                             org.motechproject.nyvrs.domain;version=${project.version},
                             org.motechproject.nyvrs.repository;version=${project.version},
-                            org.motechproject.nyvrs.web;version=${project.version}
+                            org.motechproject.nyvrs.web;version=${project.version},
+                            org.motechproject.nyvrs.event;version=${project.version}
                         </Export-Package>
                         <Import-Package>
                             org.motechproject.config.service,
