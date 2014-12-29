@@ -20,6 +20,24 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-md-2 col-sm-3 control-label" for="retryInterval">{{msg('nyvrs.settings.label.message.contextName')}}:</label>
+            <div class="col-md-10 col-sm-9">
+                <input class="form-control input-large" ng-model="settings.asteriskMessageContextName" type="text" id="messageContextName" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 control-label" for="maxRetries">{{msg('nyvrs.settings.label.maxRetries')}}:</label>
+            <div class="col-md-10 col-sm-9">
+                <input class="form-control input-large" ng-model="settings.asteriskMaxRetries" type="text" id="maxRetries" required/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 col-sm-3 control-label" for="retryInterval">{{msg('nyvrs.settings.label.retryInterval')}}:</label>
+            <div class="col-md-10 col-sm-9">
+                <input class="form-control input-large" ng-model="settings.asteriskRetryInterval" type="text" id="retryInterval" required/>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-sm -offset-3 col-md-10 col-sm-9">
                 <input ng-click="submit()" type="button" value="{{msg('nyvrs.settings.submit')}}" class="btn btn-primary"/>
             </div>

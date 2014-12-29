@@ -6,8 +6,11 @@ import org.motechproject.event.listener.annotations.MotechListener;
 import org.motechproject.messagecampaign.EventKeys;
 import org.motechproject.nyvrs.domain.ClientRegistration;
 import org.motechproject.nyvrs.domain.MessageRequest;
+import org.motechproject.nyvrs.domain.SettingsDto;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
+import org.motechproject.nyvrs.service.MessageRequestService;
 import org.motechproject.nyvrs.service.MessageService;
+import org.motechproject.server.config.SettingsFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +24,15 @@ public class NyvrsMessageCampaignEventHandler {
     private static final  Logger LOG = LoggerFactory.getLogger(NyvrsMessageCampaignEventHandler.class);
     private MessageService messageService;
     private ClientRegistrationService clientRegistrationService;
-
+    private MessageRequestService messageRequestService;
+    private SettingsFacade settingsFacade;
 
     @Autowired
-    public NyvrsMessageCampaignEventHandler(MessageService messageService, ClientRegistrationService clientRegistrationService) {
+    public NyvrsMessageCampaignEventHandler(MessageService messageService, ClientRegistrationService clientRegistrationService,
+                                            MessageRequestService messageRequestService, final SettingsFacade settingsFacade) {
         this.messageService = messageService;
         this.clientRegistrationService = clientRegistrationService;
+        this.settingsFacade = settingsFacade;
     }
 
     @MotechListener(subjects = { EventKeys.SEND_MESSAGE })
@@ -37,7 +43,9 @@ public class NyvrsMessageCampaignEventHandler {
         String clientId = (String) parametersMap.get("ExternalID");
 
         ClientRegistration clientRegistration = clientRegistrationService.getById(Long.valueOf(clientId));
-        messageService.playMessage(new MessageRequest(clientRegistration.getNumber(), clientRegistration.getNyWeeks(), null));
-
+        MessageRequest messageRequest = new MessageRequest(clientRegistration.getNumber(), clientRegistration.getNyWeeks(),
+                Integer.valueOf(settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES)));
+        messageRequestService.add(messageRequest);
+        messageService.playMessage(messageRequest);
     }
 }

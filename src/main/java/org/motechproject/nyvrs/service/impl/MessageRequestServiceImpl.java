@@ -1,6 +1,7 @@
 package org.motechproject.nyvrs.service.impl;
 
 import org.motechproject.nyvrs.domain.MessageRequest;
+import org.motechproject.nyvrs.domain.MessageRequestStatus;
 import org.motechproject.nyvrs.repository.MessageRequestDataService;
 import org.motechproject.nyvrs.service.MessageRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class MessageRequestServiceImpl implements MessageRequestService {
     }
 
     @Override
-    public MessageRequest findMessageRequestByCallerId(String callerId) {
-        return messageRequestDataService.findMessageRequestByCallerId(callerId);
+    public MessageRequest findActiveMessageRequestByCallerId(String callerId) {
+        return messageRequestDataService.findMessageRequestByCallerIdAndStatus(callerId, MessageRequestStatus.IN_PROGRESS);
     }
 
     @Override

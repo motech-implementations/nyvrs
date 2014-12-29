@@ -32,6 +32,9 @@ public class SettingsController {
         //dto.setIvrCallUrl(getPropertyValue(SettingsDto.IVR_CALL_URL));
         dto.setAsteriskSipName(getPropertyValue(SettingsDto.ASTERISK_SIP_NAME));
         dto.setAsteriskCallDir(getPropertyValue(SettingsDto.ASTERISK_CALL_DIR));
+        dto.setAsteriskMaxRetries(getPropertyValue(SettingsDto.ASTERISK_MAX_RETRIES));
+        dto.setAsteriskRetryInterval(getPropertyValue(SettingsDto.ASTERISK_RETRY_INTERVAL));
+        dto.setAsteriskMessageContextName(getPropertyValue(SettingsDto.ASTERISK_MESSAGE_CONTEXT_NAME));
         return dto;
     }
 
@@ -42,6 +45,9 @@ public class SettingsController {
             //settingsFacade.setProperty(SettingsDto.IVR_CALL_URL, settings.getIvrCallUrl());
             settingsFacade.setProperty(SettingsDto.ASTERISK_SIP_NAME, settings.getAsteriskSipName());
             settingsFacade.setProperty(SettingsDto.ASTERISK_CALL_DIR, settings.getAsteriskCallDir());
+            settingsFacade.setProperty(SettingsDto.ASTERISK_MAX_RETRIES, settings.getAsteriskMaxRetries());
+            settingsFacade.setProperty(SettingsDto.ASTERISK_RETRY_INTERVAL, settings.getAsteriskRetryInterval());
+            settingsFacade.setProperty(SettingsDto.ASTERISK_MESSAGE_CONTEXT_NAME, settings.getAsteriskMessageContextName());
         } else {
             throw new IllegalArgumentException("Settings are not valid");
         }
