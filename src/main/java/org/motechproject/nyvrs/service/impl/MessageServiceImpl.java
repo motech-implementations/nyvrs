@@ -1,7 +1,9 @@
 package org.motechproject.nyvrs.service.impl;
 
 import org.apache.commons.io.FileUtils;
-import org.motechproject.nyvrs.domain.*;
+import org.motechproject.nyvrs.domain.ClientRegistration;
+import org.motechproject.nyvrs.domain.MessageRequest;
+import org.motechproject.nyvrs.domain.SettingsDto;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.service.MessageService;
 import org.motechproject.server.config.SettingsFacade;
@@ -24,7 +26,7 @@ public class MessageServiceImpl implements MessageService {
     private SettingsFacade settingsFacade;
 
     @Autowired
-    ClientRegistrationService clientRegistrationService;
+    private ClientRegistrationService clientRegistrationService;
 
     @Autowired
     public MessageServiceImpl(final SettingsFacade settingsFacade) {
@@ -35,15 +37,15 @@ public class MessageServiceImpl implements MessageService {
     public void playMessage(MessageRequest messageRequest) {
 
         String sipName = settingsFacade.getProperty(SettingsDto.ASTERISK_SIP_NAME);
-        Long callerId = messageRequest.getCallerId();
-        ClientRegistration client = clientRegistrationService.findClientRegistrationByNumber(callerId.toString());
+        String callerId = messageRequest.getCallerId();
+        ClientRegistration client = clientRegistrationService.findClientRegistrationByNumber(callerId);
         if (client == null) {
             LOG.error("Could not find a client with caller id: " + callerId);
         } else {
             String language = client.getLanguage();
             // e.g. Set1Day0Week03
             String filename = String.format("%sDay0Week%02d", client.getCampaignType().getValue(), messageRequest.getWeek());
-            String callContent = String.format("Channel: SIP/%s/%d\n" +
+            String callContent = String.format("Channel: SIP/%s/%s\n" +
                     "MaxRetries: 0\n" +
                     "RetryTime: 60\n" +
                     "WaitTime: 30\n" +

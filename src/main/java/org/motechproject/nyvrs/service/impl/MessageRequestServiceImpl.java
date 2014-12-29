@@ -21,7 +21,7 @@ public class MessageRequestServiceImpl implements MessageRequestService {
     }
 
     @Override
-    public MessageRequest findMessageRequestByCallerId(Long callerId) {
+    public MessageRequest findMessageRequestByCallerId(String callerId) {
         return messageRequestDataService.findMessageRequestByCallerId(callerId);
     }
 

@@ -8,7 +8,7 @@ public interface MessageRequestService {
 
     void add(MessageRequest messageRequest);
 
-    MessageRequest findMessageRequestByCallerId(Long callerId);
+    MessageRequest findMessageRequestByCallerId(String callerId);
 
     List<MessageRequest> getAll();
 

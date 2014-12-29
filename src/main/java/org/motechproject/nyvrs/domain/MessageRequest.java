@@ -8,7 +8,7 @@ import org.motechproject.mds.domain.MdsEntity;
 public class MessageRequest extends MdsEntity {
 
     @Field(required = true)
-    private Long callerId;
+    private String callerId;
 
     @Field(required = true)
     private Integer week;
@@ -16,17 +16,17 @@ public class MessageRequest extends MdsEntity {
     @Field
     private Integer retryCount;
 
-    public MessageRequest(Long callerId, Integer week, Integer retryCount) {
+    public MessageRequest(String callerId, Integer week, Integer retryCount) {
         this.retryCount = retryCount;
         this.callerId = callerId;
         this.week = week;
     }
 
-    public Long getCallerId() {
+    public String getCallerId() {
         return callerId;
     }
 
-    public void setCallerId(Long callerId) {
+    public void setCallerId(String callerId) {
         this.callerId = callerId;
     }
 

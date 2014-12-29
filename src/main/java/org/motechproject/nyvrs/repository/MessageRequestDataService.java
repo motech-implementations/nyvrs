@@ -8,6 +8,6 @@ import org.motechproject.nyvrs.domain.MessageRequest;
 public interface MessageRequestDataService extends MotechDataService<MessageRequest> {
 
     @Lookup
-    MessageRequest findMessageRequestByCallerId(@LookupField(name = "callerId") Long callerId);
+    MessageRequest findMessageRequestByCallerId(@LookupField(name = "callerId") String callerId);
 
 }
