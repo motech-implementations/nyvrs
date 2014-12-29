@@ -46,7 +46,7 @@ public class MessageServiceIT extends BasePaxIT {
             clientRegistration = new ClientRegistration(callerId, "ENGLISH", "M", "21", EducationLevel.OTH, ChannelType.V);
             clientRegistrationService.add(clientRegistration);
         }
-        messageService.playMessage(new MessageRequest(clientRegistration.getNumber(), 0, 0));
+        messageService.playMessage(new MessageRequest(clientRegistration.getNumber(), 0));
         clientRegistrationService.delete(clientRegistration);
     }
 
