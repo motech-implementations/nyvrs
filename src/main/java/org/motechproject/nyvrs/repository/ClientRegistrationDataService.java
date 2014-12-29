@@ -11,4 +11,7 @@ public interface ClientRegistrationDataService extends MotechDataService<ClientR
     @Lookup
     ClientRegistration findClientRegistrationByNumber(@LookupField(name = "number") String number);
 
+    @Lookup
+    ClientRegistration findClientRegistrationById(@LookupField(name = "id") Long id);
+
 }

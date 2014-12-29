@@ -12,7 +12,7 @@ import java.util.List;
 public class ClientRegistrationServiceImpl implements ClientRegistrationService {
 
     @Autowired
-    private ClientRegistrationDataService clientRegistrationDataService;
+    ClientRegistrationDataService clientRegistrationDataService;
 
 
     @Override
@@ -38,5 +38,10 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
     @Override
     public void update(ClientRegistration clientRegistration) {
         clientRegistrationDataService.update(clientRegistration);
+    }
+
+    @Override
+    public ClientRegistration getById(Long clientRegistrationId) {
+        return clientRegistrationDataService.findClientRegistrationById(clientRegistrationId);
     }
 }

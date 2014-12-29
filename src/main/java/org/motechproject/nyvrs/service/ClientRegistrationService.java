@@ -16,4 +16,6 @@ public interface ClientRegistrationService {
 
     void update(ClientRegistration clientRegistration);
 
+    ClientRegistration getById(Long clientRegistrationId);
+
 }
