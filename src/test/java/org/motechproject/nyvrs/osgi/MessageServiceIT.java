@@ -1,5 +1,6 @@
 package org.motechproject.nyvrs.osgi;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.motechproject.nyvrs.domain.ChannelType;
@@ -46,8 +47,11 @@ public class MessageServiceIT extends BasePaxIT {
             clientRegistration = new ClientRegistration(callerId, "ENGLISH", "M", "21", EducationLevel.OTH, ChannelType.V);
             clientRegistrationService.add(clientRegistration);
         }
-        messageService.playMessage(new MessageRequest(clientRegistration.getNumber(), 0));
-        clientRegistrationService.delete(clientRegistration);
+        try {
+            Assert.assertTrue(messageService.playMessage(new MessageRequest(clientRegistration.getNumber(), 0)));
+        } finally {
+            clientRegistrationService.delete(clientRegistration);
+        }
     }
 
 }

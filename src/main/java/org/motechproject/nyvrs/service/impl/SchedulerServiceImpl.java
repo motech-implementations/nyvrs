@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class SchedulerServiceImpl implements SchedulerService {
 
     @Override
-    public void reschedule(MessageRequest messageRequest) {
+    public void schedule(MessageRequest messageRequest) {
 
     }
 }

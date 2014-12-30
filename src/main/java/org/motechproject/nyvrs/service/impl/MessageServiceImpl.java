@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.IOException;]
 
 /**
  * Implementation of the {@link org.motechproject.nyvrs.service.MessageService} interface.
@@ -39,7 +39,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void playMessage(MessageRequest messageRequest) {
+    public Boolean playMessage(MessageRequest messageRequest) {
 
         String sipName = settingsFacade.getProperty(SettingsDto.ASTERISK_SIP_NAME);
         String maxRetries = settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES);
@@ -56,24 +56,30 @@ public class MessageServiceImpl implements MessageService {
             String callContent = String.format("Channel: SIP/%s/%s\n" +
                     "MaxRetries: %s\n" +
                     "RetryTime: %s\n" +
-                    "WaitTime: 30\n" +
                     "Context: %s\n" +
                     "Extension: s\n" +
                     "SetVar: language=%s\n" +
-                    "SetVar: filename=%s\n", sipName, callerId, maxRetries, retryInterval, contextName, language, filename);
+                    "SetVar: filename=%s\n" +
+                    "SetVar: callerId=%s\n", sipName, callerId, maxRetries, retryInterval, contextName, language, filename, callerId);
 
             // TODO check queue/scheduler status
             String callDir = settingsFacade.getProperty(SettingsDto.ASTERISK_CALL_DIR);
-            File callFile = new File(callDir, callerId + ".call");
+            File callFile = new File(callerId + ".call");
             try {
                 FileUtils.writeStringToFile(callFile, callContent);
+                callFile.setReadable(true, false);
+                callFile.setExecutable(true, false);
+                callFile.setWritable(true, false);
+                File callFileDest = new File(callDir, callerId + ".call");
+                FileUtils.moveFile(callFile, callFileDest);
                 messageRequest.setStatus(MessageRequestStatus.IN_PROGRESS);
                 messageRequestService.update(messageRequest);
+                return true;
             } catch (IOException ioe) {
-                LOG.error("Could not save " + callFile.getAbsolutePath());
+                LOG.error("Error while saving the call file:\n" + ioe.getMessage());
             }
         }
+        return false;
     }
-    // e.g. Set1Day0Week03
 
 }

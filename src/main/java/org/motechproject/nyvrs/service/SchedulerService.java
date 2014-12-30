@@ -4,6 +4,6 @@ import org.motechproject.nyvrs.domain.MessageRequest;
 
 public interface SchedulerService {
 
-    void reschedule(MessageRequest messageRequest);
+    void schedule(MessageRequest messageRequest);
 
 }

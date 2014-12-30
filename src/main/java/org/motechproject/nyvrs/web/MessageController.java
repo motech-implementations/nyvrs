@@ -54,7 +54,7 @@ public class MessageController {
     }
 
     @RequestMapping(value = "/result", method = RequestMethod.POST)
-    public ResponseEntity<String> register(HttpServletRequest request) {
+    public ResponseEntity<String> result(HttpServletRequest request) {
         String callerId = request.getParameter("callerId");
         Boolean isSuccessful = Boolean.valueOf(request.getParameter("isSuccessful"));
 
@@ -77,8 +77,6 @@ public class MessageController {
             messageRequest.setRetryCount(messageRequest.getRetryCount() + 1);
             if (messageRequest.getRetryCount() >= Integer.parseInt(maxRetries)) {
                 messageRequest.setStatus(MessageRequestStatus.FAILED);
-            } else {
-                schedulerService.reschedule(messageRequest);
             }
             messageRequestService.update(messageRequest);
         }
