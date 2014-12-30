@@ -74,10 +74,10 @@ public class MessageController {
             clientRegistrationService.update(clientRegistration);
         } else {
             String maxRetries = settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES);
-            messageRequest.setRetryCount(messageRequest.getRetryCount() + 1);
             if (messageRequest.getRetryCount() >= Integer.parseInt(maxRetries)) {
                 messageRequest.setStatus(MessageRequestStatus.FAILED);
             }
+            messageRequest.setRetryCount(messageRequest.getRetryCount() + 1);
             messageRequestService.update(messageRequest);
         }
         return new ResponseEntity<String>("success", HttpStatus.OK);
