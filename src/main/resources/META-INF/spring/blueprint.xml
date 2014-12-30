@@ -21,7 +21,7 @@
         <property name="settingsURL" value="/nyvrs/settings" />
         <property name="defaultURL" value="/nyvrs/settings" />
     </bean>
-    
+
     <osgi:service ref="messageService"
                   interface="org.motechproject.nyvrs.service.MessageService" />
 
@@ -34,6 +34,9 @@
     <osgi:service ref="schedulerService"
                   interface="org.motechproject.nyvrs.service.SchedulerService" />
 
+    <osgi:service ref="campaignService"
+                  interface="org.motechproject.nyvrs.service.CampaignService" />
+
     <osgi:reference id="messageRequestDataService"
                     interface="org.motechproject.nyvrs.repository.MessageRequestDataService" />
 
@@ -42,5 +45,12 @@
 
     <osgi:reference id="configurationServiceOsgi"
                     interface="org.motechproject.config.service.ConfigurationService"/>
+
+    <osgi:reference id="messageCampaignService"
+                    interface="org.motechproject.messagecampaign.service.MessageCampaignService"/>
+
+    <osgi:reference id="enrollmentService"
+                    interface="org.motechproject.messagecampaign.service.EnrollmentService"/>
+
 
 </beans>

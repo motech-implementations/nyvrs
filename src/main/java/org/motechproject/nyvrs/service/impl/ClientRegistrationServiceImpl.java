@@ -2,6 +2,7 @@ package org.motechproject.nyvrs.service.impl;
 
 import org.motechproject.nyvrs.domain.ClientRegistration;
 import org.motechproject.nyvrs.repository.ClientRegistrationDataService;
+import org.motechproject.nyvrs.service.CampaignService;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,23 @@ import java.util.List;
 public class ClientRegistrationServiceImpl implements ClientRegistrationService {
 
     @Autowired
-    ClientRegistrationDataService clientRegistrationDataService;
+    private ClientRegistrationDataService clientRegistrationDataService;
+
+    @Autowired
+    CampaignService campaignService;
 
 
     @Override
     public void add(ClientRegistration clientRegistration) {
-        clientRegistrationDataService.create(clientRegistration);
+
+        // Check for existence of NYVRS campaigns
+        campaignService.handleNyvrsCampaignsInDb();
+        ClientRegistration savedClientRegistration = clientRegistrationDataService.create(clientRegistration);
+        campaignService.enrollToNyvrsCampaign(
+                savedClientRegistration.getId().toString(), savedClientRegistration.getChannel());
     }
+
+
 
     @Override
     public ClientRegistration findClientRegistrationByNumber(String number) {
