@@ -15,7 +15,6 @@ public class MessageRequestServiceImpl implements MessageRequestService {
     @Autowired
     MessageRequestDataService messageRequestDataService;
 
-
     @Override
     public void add(MessageRequest messageRequest) {
         messageRequestDataService.create(messageRequest);
@@ -24,6 +23,11 @@ public class MessageRequestServiceImpl implements MessageRequestService {
     @Override
     public MessageRequest findActiveMessageRequestByCallerId(String callerId) {
         return messageRequestDataService.findMessageRequestByCallerIdAndStatus(callerId, MessageRequestStatus.IN_PROGRESS);
+    }
+
+    @Override
+    public List<MessageRequest> findScheduledRequests() {
+        return messageRequestDataService.findMessageRequestsByStatus(MessageRequestStatus.WAITING);
     }
 
     @Override

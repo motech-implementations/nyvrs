@@ -10,6 +10,8 @@ public interface MessageRequestService {
 
     MessageRequest findActiveMessageRequestByCallerId(String callerId);
 
+    List<MessageRequest> findScheduledRequests();
+
     List<MessageRequest> getAll();
 
     void delete(MessageRequest messageRequest);

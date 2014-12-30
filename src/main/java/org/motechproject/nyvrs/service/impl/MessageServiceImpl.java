@@ -8,6 +8,7 @@ import org.motechproject.nyvrs.domain.SettingsDto;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.service.MessageRequestService;
 import org.motechproject.nyvrs.service.MessageService;
+import org.motechproject.nyvrs.service.SchedulerService;
 import org.motechproject.server.config.SettingsFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,9 @@ public class MessageServiceImpl implements MessageService {
 
     @Autowired
     private MessageRequestService messageRequestService;
+
+    @Autowired
+    private SchedulerService schedulerService;
 
     @Autowired
     public MessageServiceImpl(final SettingsFacade settingsFacade) {
@@ -62,21 +66,24 @@ public class MessageServiceImpl implements MessageService {
                     "SetVar: filename=%s\n" +
                     "SetVar: callerId=%s\n", sipName, callerId, maxRetries, retryInterval, contextName, language, filename, callerId);
 
-            // TODO check queue/scheduler status
-            String callDir = settingsFacade.getProperty(SettingsDto.ASTERISK_CALL_DIR);
-            File callFile = new File(callerId + ".call");
-            try {
-                FileUtils.writeStringToFile(callFile, callContent);
-                callFile.setReadable(true, false);
-                callFile.setExecutable(true, false);
-                callFile.setWritable(true, false);
-                File callFileDest = new File(callDir, callerId + ".call");
-                FileUtils.moveFile(callFile, callFileDest);
-                messageRequest.setStatus(MessageRequestStatus.IN_PROGRESS);
-                messageRequestService.update(messageRequest);
-                return true;
-            } catch (IOException ioe) {
-                LOG.error("Error while saving the call file:\n" + ioe.getMessage());
+            if (schedulerService.isBusy()) {
+                schedulerService.schedule(messageRequest);
+            } else {
+                String callDir = settingsFacade.getProperty(SettingsDto.ASTERISK_CALL_DIR);
+                File callFile = new File(callerId + ".call");
+                try {
+                    FileUtils.writeStringToFile(callFile, callContent);
+                    callFile.setReadable(true, false);
+                    callFile.setExecutable(true, false);
+                    callFile.setWritable(true, false);
+                    File callFileDest = new File(callDir, callerId + ".call");
+                    FileUtils.moveFile(callFile, callFileDest);
+                    messageRequest.setStatus(MessageRequestStatus.IN_PROGRESS);
+                    messageRequestService.update(messageRequest);
+                    return true;
+                } catch (IOException ioe) {
+                    LOG.error("Error while saving the call file:\n" + ioe.getMessage());
+                }
             }
         }
         return false;

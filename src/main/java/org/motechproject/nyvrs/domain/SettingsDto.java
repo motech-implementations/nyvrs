@@ -11,6 +11,7 @@ public class SettingsDto {
     public static final String ASTERISK_MAX_RETRIES = "asterisk.maxRetries";
     public static final String ASTERISK_RETRY_INTERVAL = "asterisk.retryInterval";
     public static final String ASTERISK_MESSAGE_CONTEXT_NAME = "asterisk.message.contextName";
+    public static final String ASTERISK_MAX_CALLS = "asterisk.maxCalls";
 
     private String ivrCallUrl;
     private String asteriskSipName;
@@ -18,6 +19,7 @@ public class SettingsDto {
     private String asteriskMessageContextName;
     private String asteriskMaxRetries;
     private String asteriskRetryInterval;
+    private String asteriskMaxCalls;
 
     public String getIvrCallUrl() {
         return ivrCallUrl;
@@ -67,11 +69,19 @@ public class SettingsDto {
         this.asteriskMessageContextName = asteriskMessageContextName;
     }
 
+    public String getAsteriskMaxCalls() {
+        return asteriskMaxCalls;
+    }
+
+    public void setAsteriskMaxCalls(String asteriskMaxCalls) {
+        this.asteriskMaxCalls = asteriskMaxCalls;
+    }
+
     @JsonIgnore
     public boolean isValid() {
-        return !(StringUtils.isEmpty(asteriskSipName) || StringUtils.isEmpty(asteriskCallDir) || StringUtils.isEmpty(asteriskMessageContextName) ||
-                StringUtils.isBlank(asteriskMaxRetries) || StringUtils.isBlank(asteriskRetryInterval) ||
-                !StringUtils.isNumeric(asteriskMaxRetries) || !StringUtils.isNumeric(asteriskRetryInterval));
+        return !(StringUtils.isBlank(asteriskSipName) || StringUtils.isBlank(asteriskCallDir) || StringUtils.isBlank(asteriskMessageContextName) ||
+                StringUtils.isBlank(asteriskMaxRetries) || StringUtils.isBlank(asteriskRetryInterval) || StringUtils.isBlank(asteriskMaxCalls) ||
+                !StringUtils.isNumeric(asteriskMaxRetries) || !StringUtils.isNumeric(asteriskRetryInterval) || !StringUtils.isNumeric(asteriskMaxCalls));
     }
 
 }

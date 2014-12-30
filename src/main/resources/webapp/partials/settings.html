@@ -38,6 +38,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-md-2 col-sm-3 control-label" for="retryInterval">{{msg('nyvrs.settings.label.maxCalls')}}:</label>
+            <div class="col-md-10 col-sm-9">
+                <input class="form-control input-large" ng-model="settings.asteriskMaxCalls" type="text" id="maxCalls" required/>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-sm -offset-3 col-md-10 col-sm-9">
                 <input ng-click="submit()" type="button" value="{{msg('nyvrs.settings.submit')}}" class="btn btn-primary"/>
             </div>

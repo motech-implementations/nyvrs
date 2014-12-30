@@ -35,6 +35,7 @@ public class SettingsController {
         dto.setAsteriskMaxRetries(getPropertyValue(SettingsDto.ASTERISK_MAX_RETRIES));
         dto.setAsteriskRetryInterval(getPropertyValue(SettingsDto.ASTERISK_RETRY_INTERVAL));
         dto.setAsteriskMessageContextName(getPropertyValue(SettingsDto.ASTERISK_MESSAGE_CONTEXT_NAME));
+        dto.setAsteriskMaxCalls(getPropertyValue(SettingsDto.ASTERISK_MAX_CALLS));
         return dto;
     }
 
@@ -48,6 +49,7 @@ public class SettingsController {
             settingsFacade.setProperty(SettingsDto.ASTERISK_MAX_RETRIES, settings.getAsteriskMaxRetries());
             settingsFacade.setProperty(SettingsDto.ASTERISK_RETRY_INTERVAL, settings.getAsteriskRetryInterval());
             settingsFacade.setProperty(SettingsDto.ASTERISK_MESSAGE_CONTEXT_NAME, settings.getAsteriskMessageContextName());
+            settingsFacade.setProperty(SettingsDto.ASTERISK_MAX_CALLS, settings.getAsteriskMaxCalls());
         } else {
             throw new IllegalArgumentException("Settings are not valid");
         }

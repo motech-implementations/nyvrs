@@ -76,10 +76,12 @@ public class MessageController {
             String maxRetries = settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES);
             if (messageRequest.getRetryCount() >= Integer.parseInt(maxRetries)) {
                 messageRequest.setStatus(MessageRequestStatus.FAILED);
+            } else {
+                messageRequest.setRetryCount(messageRequest.getRetryCount() + 1);
             }
-            messageRequest.setRetryCount(messageRequest.getRetryCount() + 1);
             messageRequestService.update(messageRequest);
         }
+        schedulerService.handleScheduledRequests();
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
