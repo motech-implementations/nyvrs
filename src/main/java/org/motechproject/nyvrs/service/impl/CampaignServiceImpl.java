@@ -9,6 +9,8 @@ import org.motechproject.messagecampaign.userspecified.CampaignRecord;
 import org.motechproject.nyvrs.domain.ChannelType;
 import org.motechproject.nyvrs.service.CampaignService;
 import org.motechproject.server.config.SettingsFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,9 @@ public class CampaignServiceImpl implements CampaignService {
     private SettingsFacade settingsFacade;
 
     private CampaignJsonLoader campaignJsonLoader = new CampaignJsonLoader();
+
+    private static final Logger LOG = LoggerFactory.getLogger(CampaignService.class);
+
 
     @Override
     public void handleNyvrsCampaignsInDb() {
@@ -48,6 +53,8 @@ public class CampaignServiceImpl implements CampaignService {
                 for (CampaignRecord campaignRecord : nyvrsCampaignRecords) {
                     if (campaignRecord.getName().equals(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME)) {
                         messageCampaignService.saveCampaign(campaignRecord);
+                        LOG.info("Added lacking '" + CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME + "' " +
+                                "message campaign");
                     }
                 }
             }
@@ -56,6 +63,8 @@ public class CampaignServiceImpl implements CampaignService {
                 for (CampaignRecord campaignRecord : nyvrsCampaignRecords) {
                     if (campaignRecord.getName().equals(CampaignService.WEDNESDAY_MESSAGE_CAMPAIGN_NAME)) {
                         messageCampaignService.saveCampaign(campaignRecord);
+                        LOG.info("Added lacking '" + CampaignService.WEDNESDAY_MESSAGE_CAMPAIGN_NAME + "' " +
+                                "message campaign");
                     }
                 }
             }

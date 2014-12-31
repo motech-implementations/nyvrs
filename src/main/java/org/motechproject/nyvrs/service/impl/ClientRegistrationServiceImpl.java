@@ -18,7 +18,7 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
     private ClientRegistrationDataService clientRegistrationDataService;
 
     @Autowired
-    CampaignService campaignService;
+    private CampaignService campaignService;
 
     private static final Logger LOG = LoggerFactory.getLogger(ClientRegistrationService.class);
 
@@ -30,8 +30,8 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
         ClientRegistration savedClientRegistration = clientRegistrationDataService.create(clientRegistration);
         campaignService.enrollToNyvrsCampaign(
                 savedClientRegistration.getId().toString(), savedClientRegistration.getChannel());
-        LOG.info("Successfully saved client (with callerId=%s) to database and enrolled for NYVRS campaign",
-                savedClientRegistration.getNumber());
+        LOG.info(String.format("Successfully saved client (with callerId=%s) to database and enrolled for NYVRS campaign",
+                savedClientRegistration.getNumber()));
     }
 
     @Override
