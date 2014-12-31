@@ -32,7 +32,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Override
     public Boolean isBusy() {
         Integer maxCalls = Integer.valueOf(settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_CALLS));
-        return getCurrentCallCount() > maxCalls;
+        return getCurrentCallCount() >= maxCalls;
     }
 
     @Override
