@@ -7,6 +7,7 @@ import org.motechproject.messagecampaign.EventKeys;
 import org.motechproject.nyvrs.domain.ClientRegistration;
 import org.motechproject.nyvrs.domain.MessageRequest;
 import org.motechproject.nyvrs.domain.StatusType;
+import org.motechproject.nyvrs.service.CampaignService;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
 import org.motechproject.nyvrs.service.MessageRequestService;
 import org.motechproject.nyvrs.service.MessageService;
@@ -35,6 +36,11 @@ public class NyvrsMessageCampaignEventHandler {
 
     @MotechListener(subjects = { EventKeys.SEND_MESSAGE })
     public void handleSendMessage(MotechEvent event) {
+
+        // Ensure that only messages from Sunday IVR campaign are handled by this handler
+        if (!event.getParameters().get("CampaignName").equals(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME)) {
+            return;
+        }
         LOG.info("Handling SEND_MESSAGE event {}: message={} from campaign={} for externalId={}", event.getSubject(),
                 event.getParameters().get("MessageKey"), event.getParameters().get("CampaignName"), event.getParameters().get("ExternalID"));
         Map<String,Object> parametersMap = event.getParameters();
@@ -48,6 +54,11 @@ public class NyvrsMessageCampaignEventHandler {
 
     @MotechListener(subjects = { EventKeys.CAMPAIGN_COMPLETED })
     public void handleCompletedCampaignEvent(MotechEvent event) {
+
+        // Ensure that only messages from Sunday IVR campaign are handled by this handler
+        if (!event.getParameters().get("CampaignName").equals(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME)) {
+            return;
+        }
         LOG.info("Handling CAMPAIGN_COMPLETED event {}: message={} from campaign={} for externalId={}", event.getSubject(),
                 event.getParameters().get("MessageKey"), event.getParameters().get("CampaignName"), event.getParameters().get("ExternalID"));
         Map<String,Object> parametersMap = event.getParameters();

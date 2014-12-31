@@ -1,5 +1,6 @@
 package org.motechproject.nyvrs.service.impl;
 
+import org.motechproject.nyvrs.domain.ChannelType;
 import org.motechproject.nyvrs.domain.ClientRegistration;
 import org.motechproject.nyvrs.repository.ClientRegistrationDataService;
 import org.motechproject.nyvrs.service.CampaignService;
@@ -28,10 +29,17 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
         // Check for existence of NYVRS campaigns
         campaignService.handleNyvrsCampaignsInDb();
         ClientRegistration savedClientRegistration = clientRegistrationDataService.create(clientRegistration);
-        campaignService.enrollToNyvrsCampaign(
-                savedClientRegistration.getId().toString(), savedClientRegistration.getChannel());
-        LOG.info(String.format("Successfully saved client (with callerId=%s) to database and enrolled for NYVRS campaign",
+        LOG.info(String.format("Successfully saved client (with callerId=%s) to database",
                 savedClientRegistration.getNumber()));
+
+        // Enroll to campaign only clients with IVR channel, since SMS is handled separately
+        if (savedClientRegistration.getChannel().equals(ChannelType.V)) {
+            campaignService.enrollToNyvrsCampaign(
+                    savedClientRegistration.getId().toString(), savedClientRegistration.getChannel());
+            LOG.info(String.format("Successfully enrolled client (with callerId=%s) for NYVRS IVR campaign",
+                    savedClientRegistration.getNumber()));
+        }
+
     }
 
     @Override
