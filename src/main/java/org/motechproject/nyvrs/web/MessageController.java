@@ -81,7 +81,13 @@ public class MessageController {
             }
             messageRequestService.update(messageRequest);
         }
-        schedulerService.handleScheduledRequests();
+
+        new Thread(new Runnable() {
+            public void run() {
+                schedulerService.handleScheduledRequests();
+            }
+        }).start();
+
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
