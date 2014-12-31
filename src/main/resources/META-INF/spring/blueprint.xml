@@ -48,9 +48,4 @@
 
     <osgi:reference id="messageCampaignService"
                     interface="org.motechproject.messagecampaign.service.MessageCampaignService"/>
-
-    <osgi:reference id="enrollmentService"
-                    interface="org.motechproject.messagecampaign.service.EnrollmentService"/>
-
-
 </beans>

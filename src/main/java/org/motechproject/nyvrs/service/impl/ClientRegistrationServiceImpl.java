@@ -4,6 +4,8 @@ import org.motechproject.nyvrs.domain.ClientRegistration;
 import org.motechproject.nyvrs.repository.ClientRegistrationDataService;
 import org.motechproject.nyvrs.service.CampaignService;
 import org.motechproject.nyvrs.service.ClientRegistrationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
     @Autowired
     CampaignService campaignService;
 
+    private static final Logger LOG = LoggerFactory.getLogger(ClientRegistrationService.class);
 
     @Override
     public void add(ClientRegistration clientRegistration) {
@@ -27,9 +30,9 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
         ClientRegistration savedClientRegistration = clientRegistrationDataService.create(clientRegistration);
         campaignService.enrollToNyvrsCampaign(
                 savedClientRegistration.getId().toString(), savedClientRegistration.getChannel());
+        LOG.info("Successfully saved client (with callerId=%s) to database and enrolled for NYVRS campaign",
+                savedClientRegistration.getNumber());
     }
-
-
 
     @Override
     public ClientRegistration findClientRegistrationByNumber(String number) {
