@@ -43,7 +43,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public Boolean playMessage(MessageRequest messageRequest) {
+    public synchronized Boolean playMessage(MessageRequest messageRequest) {
 
         String sipName = settingsFacade.getProperty(SettingsDto.ASTERISK_SIP_NAME);
         String maxRetries = settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES);

@@ -42,7 +42,7 @@ public class SchedulerServiceImpl implements SchedulerService {
     }
 
     @Override
-    public void handleScheduledRequests() {
+    public synchronized void handleScheduledRequests() {
         List<MessageRequest> scheduledRequests = messageRequestService.findScheduledRequests();
         if (scheduledRequests.size() > 0) {
             Integer callsToHandle = Integer.valueOf(settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_CALLS)) - getCurrentCallCount();
