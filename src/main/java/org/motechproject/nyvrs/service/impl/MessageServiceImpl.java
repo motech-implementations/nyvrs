@@ -67,11 +67,13 @@ public class MessageServiceImpl implements MessageService {
                     "SetVar: callerId=%s\n", sipName, callerId, maxRetries, retryInterval, contextName, language, filename, callerId);
 
             if (schedulerService.isBusy()) {
+                LOG.info(String.format("Scheduling call, callerId: %s", callerId));
                 schedulerService.schedule(messageRequest);
             } else {
                 String callDir = settingsFacade.getProperty(SettingsDto.ASTERISK_CALL_DIR);
                 File callFile = new File(callerId + ".call");
                 try {
+                    LOG.info(String.format("Moving the call file to the outgoing directory (callerId: %s)", callerId));
                     FileUtils.writeStringToFile(callFile, callContent);
                     callFile.setReadable(true, false);
                     callFile.setExecutable(true, false);
