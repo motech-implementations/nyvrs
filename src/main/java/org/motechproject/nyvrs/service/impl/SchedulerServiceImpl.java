@@ -46,7 +46,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         List<MessageRequest> scheduledRequests = messageRequestService.findScheduledRequests();
         if (scheduledRequests.size() > 0) {
             Integer callsToHandle = Integer.valueOf(settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_CALLS)) - getCurrentCallCount();
-            for(int i = 0; i < scheduledRequests.size() && i < callsToHandle; i++) {
+            for(int i = 0; i < scheduledRequests.size() && i <= callsToHandle; i++) {
                 messageService.playMessage(scheduledRequests.get(i));
             }
         }
