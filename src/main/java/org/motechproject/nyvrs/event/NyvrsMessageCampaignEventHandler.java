@@ -31,6 +31,7 @@ public class NyvrsMessageCampaignEventHandler {
                                             MessageRequestService messageRequestService) {
         this.messageService = messageService;
         this.clientRegistrationService = clientRegistrationService;
+        this.messageRequestService = messageRequestService;
     }
 
     @MotechListener(subjects = { EventKeys.SEND_MESSAGE })
