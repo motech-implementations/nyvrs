@@ -32,13 +32,10 @@ public class ClientRegistrationServiceImpl implements ClientRegistrationService 
         LOG.info(String.format("Successfully saved client (with callerId=%s) to database",
                 savedClientRegistration.getNumber()));
 
-        // Enroll to campaign only clients with IVR channel, since SMS is handled separately
-        if (savedClientRegistration.getChannel().equals(ChannelType.V)) {
-            campaignService.enrollToNyvrsCampaign(
-                    savedClientRegistration.getId().toString(), savedClientRegistration.getChannel());
-            LOG.info(String.format("Successfully enrolled client (with callerId=%s) for NYVRS IVR campaign",
-                    savedClientRegistration.getNumber()));
-        }
+        campaignService.enrollToNyvrsCampaigns(
+                savedClientRegistration.getId().toString(), savedClientRegistration.getChannel());
+        LOG.info(String.format("Successfully enrolled client (with callerId=%s) for NYVRS campaigns",
+                savedClientRegistration.getNumber()));
 
     }
 

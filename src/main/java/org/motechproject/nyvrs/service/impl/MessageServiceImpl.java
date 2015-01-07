@@ -56,7 +56,7 @@ public class MessageServiceImpl implements MessageService {
         } else {
             String language = client.getLanguage();
             // e.g. Set1Day0Week03
-            String filename = String.format("%sDay0Week%02d", client.getCampaignType().getValue(), messageRequest.getWeek());
+            String filename = String.format("%sDay%dWeek%02d", client.getCampaignType().getValue(), messageRequest.getDay(), messageRequest.getWeek());
             String callContent = String.format("Channel: SIP/%s/%s\n" +
                     "MaxRetries: %s\n" +
                     "RetryTime: %s\n" +

@@ -14,15 +14,19 @@ public class MessageRequest extends MdsEntity {
     private Integer week;
 
     @Field(required = true)
+    private Integer day;
+
+    @Field(required = true)
     private Integer retryCount;
 
     @Field(required = true)
     private MessageRequestStatus status;
 
-    public MessageRequest(String callerId, Integer week) {
+    public MessageRequest(String callerId, Integer week, Integer day) {
         this.retryCount = 0;
         this.callerId = callerId;
         this.week = week;
+        this.day = day;
         this.status = MessageRequestStatus.NEW;
     }
 
@@ -40,6 +44,14 @@ public class MessageRequest extends MdsEntity {
 
     public void setWeek(Integer week) {
         this.week = week;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
     }
 
     public Integer getRetryCount() {

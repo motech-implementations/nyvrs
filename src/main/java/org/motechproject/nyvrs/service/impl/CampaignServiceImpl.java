@@ -36,6 +36,7 @@ public class CampaignServiceImpl implements CampaignService {
         List<CampaignRecord> nyvrsCampaignRecords;
         boolean isSundayPresent = true;
         boolean isWednesdayPresent = true;
+        boolean isSaturdayPresent = true;
 
         if (messageCampaignService.getCampaignRecord(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME) == null) {
             isSundayPresent = false;
@@ -45,7 +46,11 @@ public class CampaignServiceImpl implements CampaignService {
             isWednesdayPresent = false;
         }
 
-        if (!isSundayPresent || !isWednesdayPresent) {
+        if (messageCampaignService.getCampaignRecord(CampaignService.SATURDAY_MESSAGE_CAMPAIGN_NAME) == null) {
+            isSaturdayPresent = false;
+        }
+
+        if (!isSundayPresent || !isWednesdayPresent || !isSaturdayPresent) {
             InputStream messageCampaignsJson = settingsFacade.getRawConfig(CampaignService.MESSAGE_CAMPAIGNS_FILENAME);
             nyvrsCampaignRecords = campaignJsonLoader.loadCampaigns(messageCampaignsJson);
 
@@ -68,14 +73,32 @@ public class CampaignServiceImpl implements CampaignService {
                     }
                 }
             }
+
+            if (!isSaturdayPresent) {
+                for (CampaignRecord campaignRecord : nyvrsCampaignRecords) {
+                    if (campaignRecord.getName().equals(CampaignService.SATURDAY_MESSAGE_CAMPAIGN_NAME)) {
+                        messageCampaignService.saveCampaign(campaignRecord);
+                        LOG.info("Added lacking '" + CampaignService.SATURDAY_MESSAGE_CAMPAIGN_NAME + "' " +
+                                "message campaign");
+                    }
+                }
+            }
         }
     }
 
     @Override
-    public void enrollToNyvrsCampaign(String externalId, ChannelType channelType) {
-        CampaignRequest campaignRequest = new CampaignRequest(externalId, channelType.equals(ChannelType.V) ?
-                SUNDAY_MESSAGE_CAMPAIGN_NAME : WEDNESDAY_MESSAGE_CAMPAIGN_NAME, new LocalDate(), null);
+    public void enrollToNyvrsCampaigns(String externalId, ChannelType channelType) {
+        if (channelType.equals(ChannelType.V)) {
+            // enroll clients who signed up for voice for both Wednesday and Saturday voice campaigns
+            CampaignRequest wednesdayRequest = new CampaignRequest(externalId, WEDNESDAY_MESSAGE_CAMPAIGN_NAME, new LocalDate(), null);
+            messageCampaignService.enroll(wednesdayRequest);
 
-        messageCampaignService.enroll(campaignRequest);
+            CampaignRequest saturdayRequest = new CampaignRequest(externalId, SATURDAY_MESSAGE_CAMPAIGN_NAME, new LocalDate(), null);
+            messageCampaignService.enroll(saturdayRequest);
+        }
+        // enroll all clients for SMS campaign
+        CampaignRequest sundayRequest = new CampaignRequest(externalId, SUNDAY_MESSAGE_CAMPAIGN_NAME, new LocalDate(), null);
+
+        messageCampaignService.enroll(sundayRequest);
     }
 }

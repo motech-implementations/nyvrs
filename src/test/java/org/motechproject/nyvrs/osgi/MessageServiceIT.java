@@ -48,7 +48,7 @@ public class MessageServiceIT extends BasePaxIT {
             clientRegistrationService.add(clientRegistration);
         }
         try {
-            Assert.assertTrue(messageService.playMessage(new MessageRequest(clientRegistration.getNumber(), 0)));
+            Assert.assertTrue(messageService.playMessage(new MessageRequest(clientRegistration.getNumber(), 0, 0)));
         } finally {
             clientRegistrationService.delete(clientRegistration);
         }

@@ -37,35 +37,37 @@ public class NyvrsMessageCampaignEventHandler {
     @MotechListener(subjects = { EventKeys.SEND_MESSAGE })
     public void handleSendMessage(MotechEvent event) {
 
-        // Ensure that only messages from Sunday IVR campaign are handled by this handler
-        if (!event.getParameters().get("CampaignName").equals(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME)) {
-            return;
-        }
+        String campaignName = event.getParameters().get("CampaignName").toString();
         LOG.info("Handling SEND_MESSAGE event {}: message={} from campaign={} for externalId={}", event.getSubject(),
-                event.getParameters().get("MessageKey"), event.getParameters().get("CampaignName"), event.getParameters().get("ExternalID"));
-        Map<String,Object> parametersMap = event.getParameters();
+                event.getParameters().get("MessageKey"), campaignName, event.getParameters().get("ExternalID"));
+        Map<String, Object> parametersMap = event.getParameters();
         String clientId = (String) parametersMap.get("ExternalID");
 
         ClientRegistration clientRegistration = clientRegistrationService.getById(Long.valueOf(clientId));
-        MessageRequest messageRequest = new MessageRequest(clientRegistration.getNumber(), clientRegistration.getNyWeeks());
-        messageRequestService.add(messageRequest);
-        messageService.playMessage(messageRequest);
+
+        if (campaignName.equals(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME)) {
+            clientRegistration.setNyWeeks(clientRegistration.getNyWeeks() + 1);
+            clientRegistrationService.update(clientRegistration);
+        } else {
+            MessageRequest messageRequest = new MessageRequest(clientRegistration.getNumber(), clientRegistration.getNyWeeks(),
+                    campaignName.equals(CampaignService.WEDNESDAY_MESSAGE_CAMPAIGN_NAME) ? 0 : 1);
+            messageRequestService.add(messageRequest);
+            messageService.playMessage(messageRequest);
+        }
     }
 
     @MotechListener(subjects = { EventKeys.CAMPAIGN_COMPLETED })
     public void handleCompletedCampaignEvent(MotechEvent event) {
 
-        // Ensure that only messages from Sunday IVR campaign are handled by this handler
-        if (!event.getParameters().get("CampaignName").equals(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME)) {
-            return;
-        }
-        LOG.info("Handling CAMPAIGN_COMPLETED event {}: message={} from campaign={} for externalId={}", event.getSubject(),
-                event.getParameters().get("MessageKey"), event.getParameters().get("CampaignName"), event.getParameters().get("ExternalID"));
-        Map<String,Object> parametersMap = event.getParameters();
-        String clientId = (String) parametersMap.get("ExternalID");
+        if (event.getParameters().get("CampaignName").equals(CampaignService.SUNDAY_MESSAGE_CAMPAIGN_NAME)) {
+            LOG.info("Handling CAMPAIGN_COMPLETED event {}: message={} from campaign={} for externalId={}", event.getSubject(),
+                    event.getParameters().get("MessageKey"), event.getParameters().get("CampaignName"), event.getParameters().get("ExternalID"));
+            Map<String, Object> parametersMap = event.getParameters();
+            String clientId = (String) parametersMap.get("ExternalID");
 
-        ClientRegistration clientRegistration = clientRegistrationService.getById(Long.valueOf(clientId));
-        clientRegistration.setStatus(StatusType.Completed);
-        clientRegistrationService.update(clientRegistration);
+            ClientRegistration clientRegistration = clientRegistrationService.getById(Long.valueOf(clientId));
+            clientRegistration.setStatus(StatusType.Completed);
+            clientRegistrationService.update(clientRegistration);
+        }
     }
 }

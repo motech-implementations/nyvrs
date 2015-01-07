@@ -71,8 +71,6 @@ public class MessageController {
             LOG.info(String.format("Call completed (callerId: %s)", callerId));
             messageRequest.setStatus(MessageRequestStatus.COMPLETED);
             messageRequestService.update(messageRequest);
-            clientRegistration.setNyWeeks(clientRegistration.getNyWeeks() + 1);
-            clientRegistrationService.update(clientRegistration);
         } else {
             String maxRetries = settingsFacade.getProperty(SettingsDto.ASTERISK_MAX_RETRIES);
             if (messageRequest.getRetryCount() >= Integer.parseInt(maxRetries)) {

@@ -1,13 +1,13 @@
 [
   {
-    "name": "NYVRS WEDNESDAY SMS CAMPAIGN",
+    "name": "NYVRS WEDNESDAY IVR CAMPAIGN",
     "type": "DAY_OF_WEEK",
     "maxDuration": "26 weeks",
     "messages": [
       {
         "name": "Weekly NYVRS Wednesday Message",
         "formats": [
-          "SMS"
+          "IVR"
         ],
         "languages": [
           "en",
@@ -22,14 +22,36 @@
     ]
   },
   {
-    "name": "NYVRS SUNDAY IVR CAMPAIGN",
+    "name": "NYVRS SATURDAY IVR CAMPAIGN",
+    "type": "DAY_OF_WEEK",
+    "maxDuration": "26 weeks",
+    "messages": [
+      {
+        "name": "Weekly NYVRS Saturday Message",
+        "formats": [
+          "IVR"
+        ],
+        "languages": [
+          "en",
+          "twi",
+          "ewe",
+          "hau"
+        ],
+        "messageKey": "SaturdayNyvrsMsg",
+        "repeatOn":["Saturday"],
+        "startTime": "7:00"
+      }
+    ]
+  },
+  {
+    "name": "NYVRS SUNDAY SMS CAMPAIGN",
     "type": "DAY_OF_WEEK",
     "maxDuration": "26 weeks",
     "messages": [
       {
         "name": "Weekly NYVRS Sunday Message",
         "formats": [
-          "IVR"
+          "SMS"
         ],
         "languages": [
           "en",
